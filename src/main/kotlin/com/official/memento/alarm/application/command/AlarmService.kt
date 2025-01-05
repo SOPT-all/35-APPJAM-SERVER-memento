@@ -17,6 +17,7 @@ class AlarmService : AlarmSendUseCase {
 
     private val webClient = WebClient.create()
 
+    // TODO : url parameter 제거, 환경변수로 등록
     override fun send(command: AlarmSendCommand) {
         CoroutineScope(Dispatchers.IO).launch {
             webClient.post()
