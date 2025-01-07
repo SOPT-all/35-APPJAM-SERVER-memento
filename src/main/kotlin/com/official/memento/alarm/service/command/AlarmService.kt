@@ -1,4 +1,4 @@
-package com.official.memento.alarm.application.command
+package com.official.memento.alarm.service.command
 
 import com.official.memento.alarm.domain.port.AlarmOutputPort
 import org.springframework.stereotype.Service

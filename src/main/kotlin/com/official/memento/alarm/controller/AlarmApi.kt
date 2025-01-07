@@ -1,8 +1,8 @@
-package com.official.memento.alarm.presentation
+package com.official.memento.alarm.controller
 
-import com.official.memento.alarm.application.command.AlarmSendCommand
-import com.official.memento.alarm.application.command.AlarmSendUseCase
-import com.official.memento.alarm.presentation.dto.AlarmRequest
+import com.official.memento.alarm.service.command.AlarmSendCommand
+import com.official.memento.alarm.service.command.AlarmSendUseCase
+import com.official.memento.alarm.controller.dto.AlarmRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

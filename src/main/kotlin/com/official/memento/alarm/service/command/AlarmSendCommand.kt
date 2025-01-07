@@ -1,4 +1,4 @@
-package com.official.memento.alarm.application.command
+package com.official.memento.alarm.service.command
 
 data class AlarmSendCommand(
     val uri: String,

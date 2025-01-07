@@ -1,6 +1,6 @@
-package com.official.memento.alarm.presentation
+package com.official.memento.alarm.controller
 
-import com.official.memento.alarm.presentation.dto.AlarmRequest
+import com.official.memento.alarm.controller.dto.AlarmRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag

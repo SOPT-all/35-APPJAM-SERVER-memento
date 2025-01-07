@@ -1,4 +1,4 @@
-package com.official.memento.alarm.presentation.dto
+package com.official.memento.alarm.controller.dto
 
 data class AlarmRequest(
     val uri: String,
