@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class AlarmApi(
     private val alarmSendUseCase: AlarmSendUseCase
-) {
+) : AlarmApiDocs {
 
     @PostMapping("/alarm")
-    suspend fun sendAlarm(
+    override suspend fun sendAlarm(
         @RequestBody request: AlarmRequest
     ) : ResponseEntity<Unit> {
         alarmSendUseCase.send(
