@@ -11,10 +11,12 @@ import org.springframework.web.reactive.function.client.awaitBodilessEntity
 
 @Adapter
 class AlarmSendClientAdapter : AlarmOutputPort {
-
     private val webClient = WebClient.create()
 
-    override fun sendAlarm(uri: String, content: String) {
+    override fun sendAlarm(
+        uri: String,
+        content: String,
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             webClient.post()
                 .uri(uri)
@@ -26,7 +28,6 @@ class AlarmSendClientAdapter : AlarmOutputPort {
     }
 
     data class AlarmRequestBody(
-        val content: String
-    ) {
-    }
+        val content: String,
+    )
 }
