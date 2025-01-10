@@ -2,13 +2,11 @@ package com.official.memento.global.exception;
 
 public class MementoException extends RuntimeException {
 
-    private final int errorCode;
-    private final String errorMessage;
+    private final ErrorCode errorCode;
 
-    public MementoException(ExceptionCode exceptionCode) {
-        checkNull(exceptionCode.getMessage());
-        this.errorCode = exceptionCode.getErrorCode();
-        this.errorMessage = exceptionCode.getMessage();
+    public MementoException(final ErrorCode errorCode) {
+        checkNull(errorCode.getMessage());
+        this.errorCode = errorCode;
     }
 
     private void checkNull(Object o){
