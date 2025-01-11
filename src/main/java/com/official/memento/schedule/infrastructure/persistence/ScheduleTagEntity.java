@@ -9,4 +9,7 @@ public class ScheduleTagEntity extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long tagId;
+    private Long scheduleId;
 }

@@ -11,4 +11,5 @@ public class ToDoTagEntity extends BaseTimeEntity {
     private Long id;
 
     private Long todoId;
+    private Long tagId;
 }
