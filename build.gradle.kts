@@ -1,11 +1,28 @@
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
+    val kotlinPluginVersion = "1.9.25"
+
+    kotlin("jvm") version kotlinPluginVersion
+    kotlin("plugin.spring") version kotlinPluginVersion
     id("org.springframework.boot") version "3.4.1"
     id("io.spring.dependency-management") version "1.1.7"
     // ktlint
     id("org.jlleitschuh.gradle.ktlint").version("12.1.0")
+
+    kotlin("plugin.allopen") version kotlinPluginVersion
+    kotlin("plugin.noarg") version kotlinPluginVersion
 }
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
+}
+
+noArg {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.Embeddable")
+}
+
 
 group = "com.official"
 version = "0.0.1-SNAPSHOT"
