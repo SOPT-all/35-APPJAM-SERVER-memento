@@ -1,20 +1,22 @@
 package com.official.memento.alarm.infrastructure.client
 
 import com.official.memento.alarm.domain.port.AlarmOutputPort
+import com.official.memento.global.stereotype.Adapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.springframework.http.MediaType
-import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBodilessEntity
 
-@Component
+@Adapter
 class AlarmSendClientAdapter : AlarmOutputPort {
-
     private val webClient = WebClient.create()
 
-    override fun sendAlarm(uri: String, content: String) {
+    override fun sendAlarm(
+        uri: String,
+        content: String,
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             webClient.post()
                 .uri(uri)
@@ -26,7 +28,6 @@ class AlarmSendClientAdapter : AlarmOutputPort {
     }
 
     data class AlarmRequestBody(
-        val content: String
-    ) {
-    }
+        val content: String,
+    )
 }
