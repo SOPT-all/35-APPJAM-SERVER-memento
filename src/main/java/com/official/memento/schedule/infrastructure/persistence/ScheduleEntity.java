@@ -21,7 +21,4 @@ public class ScheduleEntity extends BaseTimeEntity {
     private RepeatOption repeatOption;
     private LocalDate repeatExpiredDate;
     private String type;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
 }
