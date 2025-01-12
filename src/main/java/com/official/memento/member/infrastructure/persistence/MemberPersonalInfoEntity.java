@@ -9,9 +9,6 @@ import java.time.LocalTime;
 @Table(name = "member_personal_info")
 public class MemberPersonalInfoEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private Long memberId;
 
     private LocalTime wakeUpTime;
@@ -27,4 +24,7 @@ public class MemberPersonalInfoEntity {
     private Boolean isPreferReminder;
 
     private Boolean isImportantBreaks;
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 }

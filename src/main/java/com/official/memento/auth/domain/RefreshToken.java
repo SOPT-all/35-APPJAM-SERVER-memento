@@ -1,4 +1,4 @@
-package com.official.memento.member.domain.vo;
+package com.official.memento.auth.domain;
 
 public class RefreshToken {
     private String refreshToken;
