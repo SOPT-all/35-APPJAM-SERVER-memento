@@ -13,17 +13,13 @@ public class ScheduleEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long memberId;
-
     private String description;
-
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Boolean isAllDay;
+    private boolean isAllDay;
     private RepeatOption repeatOption;
     private LocalDate repeatExpiredDate;
-
     private String type;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
