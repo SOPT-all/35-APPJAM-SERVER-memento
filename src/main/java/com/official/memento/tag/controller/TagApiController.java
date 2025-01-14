@@ -27,8 +27,8 @@ public class TagApiController {
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createTag(
-            @Authorization AuthorizationUser authorizationUser,
-            @RequestBody TagCreateRequest request
+            @Authorization final AuthorizationUser authorizationUser,
+            @RequestBody final TagCreateRequest request
     ) {
         Tag tag = tagCreateUseCase.create(
                 new TagCreateCommand(
