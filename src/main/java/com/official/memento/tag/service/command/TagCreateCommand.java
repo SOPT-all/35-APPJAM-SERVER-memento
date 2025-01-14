@@ -7,4 +7,11 @@ public record TagCreateCommand(
         TagColor color,
         String name
 ) {
+    public static TagCreateCommand of(
+            Long memberId,
+            TagColor color,
+            String name
+    ) {
+        return new TagCreateCommand(memberId, color, name);
+    }
 }

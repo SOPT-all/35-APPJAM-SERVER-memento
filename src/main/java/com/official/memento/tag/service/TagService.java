@@ -15,8 +15,7 @@ public class TagService implements TagCreateUseCase{
     }
 
     @Override
-    public Tag create(TagCreateCommand command) {
-        // Tag 객체 생성
+    public Tag create(final TagCreateCommand command) {
         final Tag tag = Tag.of(command.name(), command.color(), command.memberId());
         return tagRepository.save(tag);
     }
