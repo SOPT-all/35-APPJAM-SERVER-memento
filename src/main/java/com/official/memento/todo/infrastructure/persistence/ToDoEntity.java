@@ -2,14 +2,12 @@ package com.official.memento.todo.infrastructure.persistence;
 
 import com.official.memento.schedule.domain.enums.RepeatOption;
 import com.official.memento.todo.domain.enums.PriorityType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
 @Table(name = "todo")
 public class ToDoEntity {
 
