@@ -4,7 +4,6 @@ import com.official.memento.schedule.domain.enums.RepeatOption;
 import com.official.memento.todo.domain.enums.PriorityType;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
