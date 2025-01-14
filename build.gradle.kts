@@ -1,15 +1,11 @@
 plugins {
-    val kotlinPluginVersion = "1.9.25"
-
-    kotlin("jvm") version kotlinPluginVersion
-    kotlin("plugin.spring") version kotlinPluginVersion
-    id("org.springframework.boot") version "3.4.1"
-    id("io.spring.dependency-management") version "1.1.7"
-    // ktlint
-    id("org.jlleitschuh.gradle.ktlint").version("12.1.0")
-
-    kotlin("plugin.allopen") version kotlinPluginVersion
-    kotlin("plugin.noarg") version kotlinPluginVersion
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.kotlin.allopen)
+    alias(libs.plugins.kotlin.noarg)
 }
 
 allOpen {
@@ -23,13 +19,12 @@ noArg {
     annotation("jakarta.persistence.Embeddable")
 }
 
-
 group = "com.official"
 version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
@@ -44,35 +39,37 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation(libs.spring.boot.starter.web)
+    implementation(libs.jackson.module.kotlin)
+    implementation(libs.kotlin.reflect)
 
-    // webflux
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    // WebFlux
+    implementation(libs.spring.boot.starter.webflux)
 
-    // coroutine
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.reactor)
 
-    // test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // JPA
+    implementation(libs.spring.boot.starter.data.jpa)
 
-    // jpa
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // Swagger
+    implementation(libs.springdoc.openapi.starter.webmvc.ui)
 
-    // swagger
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+    // Test
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.kotlin.test.junit5)
+    testRuntimeOnly(libs.junit.platform.launcher)
 
-    //postgresql
-    runtimeOnly("org.postgresql:postgresql")
+    // postgresql
+    runtimeOnly(libs.postgresql)
 }
 
 kotlin {
+    jvmToolchain(21)
+
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+        freeCompilerArgs.add("-Xjsr305=strict")
     }
 }
 
