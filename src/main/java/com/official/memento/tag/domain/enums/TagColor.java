@@ -17,4 +17,8 @@ public enum TagColor {
     TagColor(String hexCode) {
         this.hexCode = hexCode;
     }
+
+    public String getHexCode() {
+        return hexCode;
+    }
 }
