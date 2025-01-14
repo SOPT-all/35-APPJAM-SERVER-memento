@@ -1,0 +1,32 @@
+[versions]
+kotlin = "1.9.25"
+springBoot = "3.4.1"
+springDependencyManagement = "1.1.7"
+ktlint = "12.1.0"
+coroutines = "1.7.3"
+springdoc = "2.6.0"
+
+[libraries]
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "coroutines" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+springdoc-openapi-starter-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+postgresql = { module = "org.postgresql:postgresql"}
+
+# Test libraries
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
+kotlin-noarg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
