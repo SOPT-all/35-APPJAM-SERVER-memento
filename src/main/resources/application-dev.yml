@@ -1,4 +1,8 @@
 spring:
+  config:
+    import: application-secret.yml
+    activate:
+      on-profile: dev
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${DATABASE.ENDPOINT_URL.dev}:5432/postgres?currentSchema=${DATABASE.NAME.dev}
