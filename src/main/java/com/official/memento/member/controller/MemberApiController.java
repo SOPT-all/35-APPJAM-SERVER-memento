@@ -30,11 +30,11 @@ public class MemberApiController {
 
     @PutMapping("/personal-info")
     public ResponseEntity<?> updatePersonalInfo(
-            //@Authorization AuthorizationUser authorizationUser,
+            //@Authorization AuthorizationUser authorizationUser, 로그인 구현되면 추가
             @RequestBody MemberRequest request
     ) {
-        //test
-        AuthorizationUser authorizationUser = new AuthorizationUser(1L);
+        //test용, 로그인 구현되면 지우기
+        AuthorizationUser authorizationUser = new AuthorizationUser(2L);
 
         try {
             MemberResponse response = memberUpdateUseCase.updatePersonalInfo(

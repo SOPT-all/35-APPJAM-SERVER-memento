@@ -56,6 +56,26 @@ public class MemberPersonalInfo {
         this.isImportantBreaks = isImportantBreaks;
     }
 
+    public void update(
+            LocalTime wakeUpTime,
+            LocalTime windDownTime,
+            JobType job,
+            String jobOtherDetail,
+            Boolean isStressedUnorganizedSchedule,
+            Boolean isForgetImportantThings,
+            Boolean isPreferReminder,
+            Boolean isImportantBreaks
+    ) {
+        this.wakeUpTime = wakeUpTime;
+        this.windDownTime = windDownTime;
+        this.job = job;
+        this.jobOtherDetail = jobOtherDetail;
+        this.isStressedUnorganizedSchedule = isStressedUnorganizedSchedule;
+        this.isForgetImportantThings = isForgetImportantThings;
+        this.isPreferReminder = isPreferReminder;
+        this.isImportantBreaks = isImportantBreaks;
+    }
+
     public Long getId() {
         return id;
     }

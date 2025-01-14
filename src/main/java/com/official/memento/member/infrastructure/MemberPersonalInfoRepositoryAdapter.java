@@ -35,19 +35,41 @@ public class MemberPersonalInfoRepositoryAdapter implements MemberPersonalInfoRe
 
     @Override
     public MemberPersonalInfo save(MemberPersonalInfo memberPersonalInfo) {
-        MemberPersonalInfoEntity entity = MemberPersonalInfoEntity.of(
-                memberPersonalInfo.getMemberId(),
-                memberPersonalInfo.getWakeUpTime(),
-                memberPersonalInfo.getWindDownTime(),
-                memberPersonalInfo.getJob(),
-                memberPersonalInfo.getJobOtherDetail(),
-                memberPersonalInfo.getIsStressedUnorganizedSchedule(),
-                memberPersonalInfo.getIsForgetImportantThings(),
-                memberPersonalInfo.getIsPreferReminder(),
-                memberPersonalInfo.getIsImportantBreaks()
-        );
+        // 기존 엔티티 찾기
+        MemberPersonalInfoEntity existingEntity = memberPersonalInfoJpaRepository.findByMemberId(memberPersonalInfo.getMemberId());
 
-        MemberPersonalInfoEntity savedEntity = memberPersonalInfoJpaRepository.save(entity);
+        MemberPersonalInfoEntity entityToSave;
+        if (existingEntity != null) {
+            // 기존 엔티티가 있다면 업데이트
+            entityToSave = MemberPersonalInfoEntity.of(
+                    memberPersonalInfo.getMemberId(),
+                    memberPersonalInfo.getWakeUpTime(),
+                    memberPersonalInfo.getWindDownTime(),
+                    memberPersonalInfo.getJob(),
+                    memberPersonalInfo.getJobOtherDetail(),
+                    memberPersonalInfo.getIsStressedUnorganizedSchedule(),
+                    memberPersonalInfo.getIsForgetImportantThings(),
+                    memberPersonalInfo.getIsPreferReminder(),
+                    memberPersonalInfo.getIsImportantBreaks()
+            );
+            // 기존 id 설정
+            entityToSave.setId(existingEntity.getId());
+        } else {
+            // 없다먼 새로운 엔티티 생성
+            entityToSave = MemberPersonalInfoEntity.of(
+                    memberPersonalInfo.getMemberId(),
+                    memberPersonalInfo.getWakeUpTime(),
+                    memberPersonalInfo.getWindDownTime(),
+                    memberPersonalInfo.getJob(),
+                    memberPersonalInfo.getJobOtherDetail(),
+                    memberPersonalInfo.getIsStressedUnorganizedSchedule(),
+                    memberPersonalInfo.getIsForgetImportantThings(),
+                    memberPersonalInfo.getIsPreferReminder(),
+                    memberPersonalInfo.getIsImportantBreaks()
+            );
+        }
+
+        MemberPersonalInfoEntity savedEntity = memberPersonalInfoJpaRepository.save(entityToSave);
         return MemberPersonalInfo.of(
                 savedEntity.getMemberId(),
                 savedEntity.getWakeUpTime(),
