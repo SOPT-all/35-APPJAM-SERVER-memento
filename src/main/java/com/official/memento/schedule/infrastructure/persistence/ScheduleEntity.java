@@ -25,10 +25,10 @@ public class ScheduleEntity extends BaseTimeEntity {
     private LocalDate repeatExpiredDate;
     private ScheduleType type;
 
-    public ScheduleEntity() {
+    protected ScheduleEntity() {
     }
 
-    public ScheduleEntity(
+    private ScheduleEntity(
             final long memberId,
             final String description,
             final LocalDateTime startDate,
@@ -59,5 +59,41 @@ public class ScheduleEntity extends BaseTimeEntity {
                 schedule.getRepeatExpiredDate(),
                 schedule.getType()
         );
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public long getMemberId() {
+        return memberId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public boolean isAllDay() {
+        return isAllDay;
+    }
+
+    public RepeatOption getRepeatOption() {
+        return repeatOption;
+    }
+
+    public LocalDate getRepeatExpiredDate() {
+        return repeatExpiredDate;
+    }
+
+    public ScheduleType getType() {
+        return type;
     }
 }
