@@ -4,7 +4,7 @@ import com.official.memento.member.domain.enums.JobType;
 
 import java.time.LocalTime;
 
-public record MemberUpdateCommand(
+public record MemberPersonalInfoCommand(
         Long memberId,
         LocalTime wakeUpTime,
         LocalTime windDownTime,

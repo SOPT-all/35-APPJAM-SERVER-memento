@@ -1,5 +1,7 @@
 package com.official.memento.member.infrastructure;
 
+import com.official.memento.global.exception.EntityNotFoundException;
+import com.official.memento.global.exception.ErrorCode;
 import com.official.memento.global.stereotype.Adapter;
 import com.official.memento.member.domain.MemberPersonalInfo;
 import com.official.memento.member.domain.port.MemberPersonalInfoRepository;
@@ -16,9 +18,9 @@ public class MemberPersonalInfoRepositoryAdapter implements MemberPersonalInfoRe
 
     @Override
     public MemberPersonalInfo findByMemberId(Long memberId) {
-        MemberPersonalInfoEntity entity = memberPersonalInfoJpaRepository.findByMemberId(memberId);
+        final MemberPersonalInfoEntity entity = memberPersonalInfoJpaRepository.findByMemberId(memberId);
         if (entity == null) {
-            return null;
+            throw new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY);
         }
         return MemberPersonalInfo.of(
                 entity.getMemberId(),
@@ -36,7 +38,7 @@ public class MemberPersonalInfoRepositoryAdapter implements MemberPersonalInfoRe
     @Override
     public MemberPersonalInfo save(MemberPersonalInfo memberPersonalInfo) {
         // 기존 엔티티 찾기
-        MemberPersonalInfoEntity existingEntity = memberPersonalInfoJpaRepository.findByMemberId(memberPersonalInfo.getMemberId());
+        final MemberPersonalInfoEntity existingEntity = memberPersonalInfoJpaRepository.findByMemberId(memberPersonalInfo.getMemberId());
 
         MemberPersonalInfoEntity entityToSave;
         if (existingEntity != null) {

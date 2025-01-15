@@ -5,8 +5,9 @@ import com.official.memento.member.domain.enums.JobType;
 import java.time.LocalTime;
 
 public class MemberPersonalInfo {
-    private Long id;
-    private Long memberId;
+
+    private final Long id;
+    private final Long memberId;
     private LocalTime wakeUpTime;
     private LocalTime windDownTime;
     private JobType job;
@@ -16,34 +17,34 @@ public class MemberPersonalInfo {
     private Boolean isPreferReminder;
     private Boolean isImportantBreaks;
 
-    public static MemberPersonalInfo of(Long memberId, LocalTime wakeUpTime, LocalTime windDownTime,
-                                        JobType job, String jobOtherDetail,
-                                        Boolean isStressedUnorganizedSchedule,
-                                        Boolean isForgetImportantThings,
-                                        Boolean isPreferReminder,
-                                        Boolean isImportantBreaks) {
+    public static MemberPersonalInfo of(final Long memberId, final LocalTime wakeUpTime, final LocalTime windDownTime,
+                                        final JobType job, final String jobOtherDetail,
+                                        final Boolean isStressedUnorganizedSchedule,
+                                        final Boolean isForgetImportantThings,
+                                        final Boolean isPreferReminder,
+                                        final Boolean isImportantBreaks) {
         return new MemberPersonalInfo(null, memberId, wakeUpTime, windDownTime, job, jobOtherDetail,
                 isStressedUnorganizedSchedule, isForgetImportantThings,
                 isPreferReminder, isImportantBreaks);
     }
 
-    public static MemberPersonalInfo withId(Long id, Long memberId, LocalTime wakeUpTime, LocalTime windDownTime,
-                                            JobType job, String jobOtherDetail,
-                                            Boolean isStressedUnorganizedSchedule,
-                                            Boolean isForgetImportantThings,
-                                            Boolean isPreferReminder,
-                                            Boolean isImportantBreaks) {
+    public static MemberPersonalInfo withId(final Long id, final Long memberId, final LocalTime wakeUpTime, final LocalTime windDownTime,
+                                            final JobType job, final String jobOtherDetail,
+                                            final Boolean isStressedUnorganizedSchedule,
+                                            final Boolean isForgetImportantThings,
+                                            final Boolean isPreferReminder,
+                                            final Boolean isImportantBreaks) {
         return new MemberPersonalInfo(id, memberId, wakeUpTime, windDownTime, job, jobOtherDetail,
                 isStressedUnorganizedSchedule, isForgetImportantThings,
                 isPreferReminder, isImportantBreaks);
     }
 
-    private MemberPersonalInfo(Long id, Long memberId, LocalTime wakeUpTime, LocalTime windDownTime,
-                               JobType job, String jobOtherDetail,
-                               Boolean isStressedUnorganizedSchedule,
-                               Boolean isForgetImportantThings,
-                               Boolean isPreferReminder,
-                               Boolean isImportantBreaks) {
+    private MemberPersonalInfo(final Long id, final Long memberId, final LocalTime wakeUpTime, final LocalTime windDownTime,
+                               final JobType job, final String jobOtherDetail,
+                               final Boolean isStressedUnorganizedSchedule,
+                               final Boolean isForgetImportantThings,
+                               final Boolean isPreferReminder,
+                               final Boolean isImportantBreaks) {
         this.id = id;
         this.memberId = memberId;
         this.wakeUpTime = wakeUpTime;
@@ -57,15 +58,14 @@ public class MemberPersonalInfo {
     }
 
     public void update(
-            LocalTime wakeUpTime,
-            LocalTime windDownTime,
-            JobType job,
-            String jobOtherDetail,
-            Boolean isStressedUnorganizedSchedule,
-            Boolean isForgetImportantThings,
-            Boolean isPreferReminder,
-            Boolean isImportantBreaks
-    ) {
+            final LocalTime wakeUpTime,
+            final LocalTime windDownTime,
+            final JobType job,
+            final String jobOtherDetail,
+            final Boolean isStressedUnorganizedSchedule,
+            final Boolean isForgetImportantThings,
+            final Boolean isPreferReminder,
+            final Boolean isImportantBreaks) {
         this.wakeUpTime = wakeUpTime;
         this.windDownTime = windDownTime;
         this.job = job;

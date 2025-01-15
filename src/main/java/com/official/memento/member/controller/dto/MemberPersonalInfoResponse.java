@@ -1,10 +1,12 @@
 package com.official.memento.member.controller.dto;
 
+import com.official.memento.global.exception.ErrorCode;
+import com.official.memento.global.exception.MementoException;
 import com.official.memento.member.domain.enums.JobType;
 
 import java.time.LocalTime;
 
-public record MemberResponse(
+public record MemberPersonalInfoResponse(
         Long memberId,
         LocalTime wakeUpTime,
         LocalTime windDownTime,
@@ -15,7 +17,7 @@ public record MemberResponse(
         Boolean isPreferReminder,
         Boolean isImportantBreaks
 ) {
-    public static MemberResponse of(
+    public static MemberPersonalInfoResponse of(
             Long memberId,
             LocalTime wakeUpTime,
             LocalTime windDownTime,
@@ -24,9 +26,14 @@ public record MemberResponse(
             Boolean isStressedUnorganizedSchedule,
             Boolean isForgetImportantThings,
             Boolean isPreferReminder,
-            Boolean isImportantBreaks
-    ) {
-        return new MemberResponse(
+            Boolean isImportantBreaks) {
+
+        validateNull(isStressedUnorganizedSchedule);
+        validateNull(isForgetImportantThings);
+        validateNull(isPreferReminder);
+        validateNull(isImportantBreaks);
+
+        return new MemberPersonalInfoResponse(
                 memberId,
                 wakeUpTime,
                 windDownTime,
@@ -37,5 +44,11 @@ public record MemberResponse(
                 isPreferReminder,
                 isImportantBreaks
         );
+    }
+
+    private static void validateNull(Object field) {
+        if (field == null) {
+            throw new MementoException(ErrorCode.NULL_DATA_ERROR);
+        }
     }
 }
