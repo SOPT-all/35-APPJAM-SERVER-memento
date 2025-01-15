@@ -11,13 +11,24 @@ public class ScheduleRepositoryAdapter implements ScheduleRepository {
 
     private final ScheduleEntityJpaRepository scheduleEntityJpaRepository;
 
-    public ScheduleRepositoryAdapter(ScheduleEntityJpaRepository scheduleEntityJpaRepository) {
+    public ScheduleRepositoryAdapter(final ScheduleEntityJpaRepository scheduleEntityJpaRepository) {
         this.scheduleEntityJpaRepository = scheduleEntityJpaRepository;
     }
 
     @Override
-    public Schedule save(Schedule schedule) {
-        ScheduleEntity scheduleEntity = ScheduleEntity.of(schedule);
-        return null;
+    public Schedule save(final Schedule schedule) {
+        ScheduleEntity scheduleEntity = scheduleEntityJpaRepository.save(ScheduleEntity.of(schedule));
+        return Schedule.withId(
+                scheduleEntity.getId(),
+                scheduleEntity.getMemberId(),
+                scheduleEntity.getDescription(),
+                scheduleEntity.getStartDate(),
+                scheduleEntity.getEndDate(),
+                scheduleEntity.isAllDay(),
+                scheduleEntity.getRepeatOption(),
+                scheduleEntity.getRepeatExpiredDate(),
+                scheduleEntity.getType(),
+                schedule.getScheduleGroupId()
+        );
     }
 }
