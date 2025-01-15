@@ -1,4 +1,4 @@
-package com.official.memento.schedule.domain.enums;
+package com.official.memento.global.entity.enums;
 
 public enum RepeatOption {
     NONE,

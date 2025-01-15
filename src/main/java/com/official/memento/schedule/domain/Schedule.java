@@ -1,6 +1,6 @@
 package com.official.memento.schedule.domain;
 
-import com.official.memento.schedule.domain.enums.RepeatOption;
+import com.official.memento.global.entity.enums.RepeatOption;
 import com.official.memento.schedule.domain.enums.ScheduleType;
 
 import java.time.LocalDate;

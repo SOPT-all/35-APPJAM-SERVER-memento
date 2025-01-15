@@ -1,7 +1,7 @@
 package com.official.memento.schedule.conntroller.dto.request;
 
 import com.official.memento.global.exception.NullPointException;
-import com.official.memento.schedule.domain.enums.RepeatOption;
+import com.official.memento.global.entity.enums.RepeatOption;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDate;
