@@ -1,9 +1,7 @@
 package com.official.memento.schedule.service.command;
 
 import com.official.memento.global.exception.NullPointException;
-import com.official.memento.global.entity.enums.RepeatOption;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.official.memento.global.exception.ErrorCode.NULL_DATA_ERROR;
@@ -14,8 +12,6 @@ public record ScheduleCreateCommand(
         LocalDateTime startDate,
         LocalDateTime endDate,
         boolean isAllDay,
-        RepeatOption repeatOption,
-        LocalDate repeatExpiredDate,
         Long tagId
 ) {
     public static ScheduleCreateCommand of(
@@ -24,25 +20,26 @@ public record ScheduleCreateCommand(
             final LocalDateTime startDate,
             final LocalDateTime endDate,
             final boolean isAllDay,
-            final RepeatOption repeatOption,
-            final LocalDate repeatExpiredDate,
             final Long tagId
-    ){
-        checkNullData(description, startDate, endDate, repeatOption, tagId);
+    ) {
+        checkNullData(description, startDate, endDate, tagId);
         return new ScheduleCreateCommand(
                 memberId,
                 description,
                 startDate,
                 endDate,
                 isAllDay,
-                repeatOption,
-                repeatExpiredDate,
                 tagId
         );
     }
 
-    private static void checkNullData(String description, LocalDateTime startDate, LocalDateTime endDate, RepeatOption repeatOption, Long tagId) {
-        if(description ==null| startDate ==null || endDate ==null|| repeatOption ==null || tagId ==null){
+    private static void checkNullData(
+            final String description,
+            final LocalDateTime startDate,
+            final LocalDateTime endDate,
+            final Long tagId
+    ) {
+        if (description == null | startDate == null || endDate == null || tagId == null) {
             throw new NullPointException(NULL_DATA_ERROR);
         }
     }
