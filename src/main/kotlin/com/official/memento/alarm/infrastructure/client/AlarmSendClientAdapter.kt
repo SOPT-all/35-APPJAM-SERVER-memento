@@ -10,9 +10,9 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBodilessEntity
 
 @Adapter
-class AlarmSendClientAdapter : AlarmOutputPort {
-    private val webClient = WebClient.create()
-
+class AlarmSendClientAdapter(
+    private val webClient: WebClient,
+) : AlarmOutputPort {
     override fun sendAlarm(
         uri: String,
         content: String,
