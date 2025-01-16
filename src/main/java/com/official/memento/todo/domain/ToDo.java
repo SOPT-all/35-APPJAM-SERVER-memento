@@ -3,7 +3,6 @@ package com.official.memento.todo.domain;
 import com.official.memento.schedule.domain.enums.RepeatOption;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class ToDo {
     private Long id;
