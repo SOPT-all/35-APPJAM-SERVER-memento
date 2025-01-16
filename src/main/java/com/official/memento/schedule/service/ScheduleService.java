@@ -41,7 +41,9 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
     public void create(final ScheduleCreateCommand command) {
         String scheduleGroupId = UUID.randomUUID().toString();
         Schedule schedule = createSchedule(command, scheduleGroupId);
-        connectTag(command.tagId(), schedule);
+        if (command.tagId() != null) {
+            connectTag(command.tagId(), schedule);
+        }
         //순서관련 로직 추가
     }
 
@@ -57,7 +59,9 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
             default ->
                     throw new IllegalArgumentException("Unsupported repeat option: " + command.repeatOption());//커스텀 익셉션으로 교체 예정
         }
-        connectTags(command.tagId(), schedules);
+        if (command.tagId() != null) {
+            connectTags(command.tagId(), schedules);
+        }
         //순서관련 로직 추가
     }
 
@@ -91,7 +95,7 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
                     currentStartDate,
                     currentEndDate,
                     command.isAllDay(),
-                    RepeatOption.DAILY,
+                   command.repeatOption(),
                     repeatExpiredDate,
                     NORMAL,
                     scheduleGroupId
