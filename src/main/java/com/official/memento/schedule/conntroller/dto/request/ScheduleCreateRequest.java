@@ -27,7 +27,7 @@ public record ScheduleCreateRequest(
             final boolean isAllDay,
             final Long tagId
     ) {
-        checkNullData(description, startDate, endDate, tagId);
+        checkNullData(description, startDate, endDate);
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -38,10 +38,9 @@ public record ScheduleCreateRequest(
     private static void checkNullData(
             final String description,
             final LocalDateTime startDate,
-            final LocalDateTime endDate,
-            final Long tagId
+            final LocalDateTime endDate
     ) {
-        if (description == null | startDate == null || endDate == null || tagId == null) {
+        if (description == null | startDate == null || endDate == null) {
             throw new NullPointException(NULL_DATA_ERROR);
         }
     }

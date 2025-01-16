@@ -28,7 +28,7 @@ public record RepeatScheduleCreateCommand(
             final LocalDate repeatExpiredDate,
             final Long tagId
     ) {
-        checkNullData(description, startDate, endDate, repeatOption, tagId);
+        checkNullData(description, startDate, endDate, repeatOption);
         return new RepeatScheduleCreateCommand(
                 memberId,
                 description,
@@ -45,9 +45,9 @@ public record RepeatScheduleCreateCommand(
             final String description,
             final LocalDateTime startDate,
             final LocalDateTime endDate,
-            final RepeatOption repeatOption, final Long tagId
+            final RepeatOption repeatOption
     ) {
-        if (description == null | startDate == null || endDate == null || repeatOption == null || tagId == null) {
+        if (description == null | startDate == null || endDate == null || repeatOption == null) {
             throw new NullPointException(NULL_DATA_ERROR);
         }
     }
