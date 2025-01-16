@@ -10,7 +10,7 @@ public enum EisenhowerMatrixQuadrant {
     private final double xCenter;
     private final double yCenter;
 
-    EisenhowerMatrixQuadrant(PriorityType priorityType, double xCenter, double yCenter) {
+    EisenhowerMatrixQuadrant(final PriorityType priorityType, final double xCenter, final double yCenter) {
         this.priorityType = priorityType;
         this.xCenter = xCenter;
         this.yCenter = yCenter;
