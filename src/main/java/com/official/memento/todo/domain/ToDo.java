@@ -15,7 +15,9 @@ public class ToDo {
     private boolean isCompleted;
     private RepeatOption repeatOption;
     private LocalDate repeatExpiredDate;
-    private double priorityValue;
+    private Double priorityUrgency;
+    private Double priorityImportance;
+    private Double priorityValue;
     private String priorityType;
     private String toDoType;
     private int order;
@@ -30,7 +32,9 @@ public class ToDo {
             final boolean isCompleted,
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
-            final double priorityValue,
+            final Double priorityUrgency,
+            final Double priorityImportance,
+            final Double priorityValue,
             final String priorityType,
             final String toDoType,
             final int order
@@ -44,6 +48,8 @@ public class ToDo {
         this.isCompleted = isCompleted;
         this.repeatOption = repeatOption;
         this.repeatExpiredDate = repeatExpiredDate;
+        this.priorityUrgency = priorityUrgency;
+        this.priorityImportance = priorityImportance;
         this.priorityValue = priorityValue;
         this.priorityType = priorityType;
         this.toDoType = toDoType;
@@ -59,7 +65,9 @@ public class ToDo {
             final boolean isCompleted,
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
-            final double priorityValue,
+            final Double priorityUrgency,
+            final Double priorityImportance,
+            final Double priorityValue,
             final String priorityType,
             final String toDoType,
             final int order
@@ -72,6 +80,8 @@ public class ToDo {
         this.isCompleted = isCompleted;
         this.repeatOption = repeatOption;
         this.repeatExpiredDate = repeatExpiredDate;
+        this.priorityUrgency = priorityUrgency;
+        this.priorityImportance = priorityImportance;
         this.priorityValue = priorityValue;
         this.priorityType = priorityType;
         this.toDoType = toDoType;
@@ -88,7 +98,9 @@ public class ToDo {
             final boolean isCompleted,
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
-            final double priorityValue,
+            final Double priorityUrgency,
+            final Double priorityImportance,
+            final Double priorityValue,
             final String priorityType,
             final String toDoType,
             final int order
@@ -103,6 +115,8 @@ public class ToDo {
                 isCompleted,
                 repeatOption,
                 repeatExpiredDate,
+                priorityUrgency,
+                priorityImportance,
                 priorityValue,
                 priorityType,
                 toDoType,
@@ -119,7 +133,9 @@ public class ToDo {
             final boolean isCompleted,
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
-            final double priorityValue,
+            final Double priorityUrgency,
+            final Double priorityImportance,
+            final Double priorityValue,
             final String priorityType,
             final String toDoType,
             final int order
@@ -133,6 +149,8 @@ public class ToDo {
                 isCompleted,
                 repeatOption,
                 repeatExpiredDate,
+                priorityUrgency,
+                priorityImportance,
                 priorityValue,
                 priorityType,
                 toDoType,
@@ -176,7 +194,15 @@ public class ToDo {
         return repeatExpiredDate;
     }
 
-    public double getPriorityValue() {
+    public Double getPriorityUrgency() {
+        return priorityUrgency;
+    }
+
+    public Double getPriorityImportance() {
+        return priorityImportance;
+    }
+
+    public Double getPriorityValue() {
         return priorityValue;
     }
 
