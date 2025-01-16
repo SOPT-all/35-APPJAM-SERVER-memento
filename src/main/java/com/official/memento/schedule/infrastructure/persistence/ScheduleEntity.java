@@ -21,8 +21,10 @@ public class ScheduleEntity extends BaseTimeEntity {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private boolean isAllDay;
+    @Enumerated(EnumType.STRING)
     private RepeatOption repeatOption;
     private LocalDate repeatExpiredDate;
+    @Enumerated(EnumType.STRING)
     private ScheduleType type;
 
     protected ScheduleEntity() {
