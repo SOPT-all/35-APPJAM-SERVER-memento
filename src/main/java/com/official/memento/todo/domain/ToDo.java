@@ -9,6 +9,7 @@ public class ToDo {
     private Long id;
     private long memberId;
     private String toDoGroupId;
+    private LocalDate date;
     private String description;
     private LocalDate deadline;
     private boolean isCompleted;
@@ -23,6 +24,7 @@ public class ToDo {
             final Long id,
             final long memberId,
             final String toDoGroupId,
+            final LocalDate date,
             final String description,
             final LocalDate deadline,
             final boolean isCompleted,
@@ -36,6 +38,7 @@ public class ToDo {
         this.id = id;
         this.memberId = memberId;
         this.toDoGroupId = toDoGroupId;
+        this.date = date;
         this.description = description;
         this.deadline = deadline;
         this.isCompleted = isCompleted;
@@ -50,6 +53,7 @@ public class ToDo {
     private ToDo(
             final long memberId,
             final String toDoGroupId,
+            final LocalDate date,
             final String description,
             final LocalDate deadline,
             final boolean isCompleted,
@@ -62,6 +66,7 @@ public class ToDo {
     ) {
         this.memberId = memberId;
         this.toDoGroupId = toDoGroupId;
+        this.date = date;
         this.description = description;
         this.deadline = deadline;
         this.isCompleted = isCompleted;
@@ -77,6 +82,7 @@ public class ToDo {
             final Long id,
             final long memberId,
             final String toDoGroupId,
+            final LocalDate date,
             final String description,
             final LocalDate deadline,
             final boolean isCompleted,
@@ -91,6 +97,7 @@ public class ToDo {
                 id,
                 memberId,
                 toDoGroupId,
+                date,
                 description,
                 deadline,
                 isCompleted,
@@ -106,6 +113,7 @@ public class ToDo {
     public static ToDo of(
             final long memberId,
             final String toDoGroupId,
+            final LocalDate date,
             final String description,
             final LocalDate deadline,
             final boolean isCompleted,
@@ -119,6 +127,7 @@ public class ToDo {
         return new ToDo(
                 memberId,
                 toDoGroupId,
+                date,
                 description,
                 deadline,
                 isCompleted,
@@ -141,6 +150,10 @@ public class ToDo {
 
     public String getToDoGroupId() {
         return toDoGroupId;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 
     public String getDescription() {
