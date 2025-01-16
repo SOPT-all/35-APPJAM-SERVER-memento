@@ -8,6 +8,8 @@ import com.official.memento.tag.domain.TagRepository;
 import com.official.memento.tag.infrastructure.persistence.TagEntity;
 import com.official.memento.tag.infrastructure.persistence.TagJpaRepository;
 
+import java.util.List;
+
 @Adapter
 public class TagRepositoryAdapter implements TagRepository {
 
@@ -43,5 +45,18 @@ public class TagRepositoryAdapter implements TagRepository {
                 entity.getColor(),
                 entity.getMemberId()
         );
+    }
+
+    @Override
+    public List<Tag> findAllByMemberId(Long memberId) {
+        return tagJpaRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(entity -> Tag.withId(
+                        entity.getId(),
+                        entity.getName(),
+                        entity.getColor(),
+                        entity.getMemberId()
+                ))
+                .toList();
     }
 }
