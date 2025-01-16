@@ -7,6 +7,7 @@ import com.official.memento.auth.domain.port.AuthRepository;
 import com.official.memento.auth.infrastructure.jwt.JwtUtil;
 import com.official.memento.auth.service.command.AuthCommand;
 import com.official.memento.auth.service.usecase.AuthUseCase;
+import com.official.memento.auth.service.AuthResult;
 import com.official.memento.global.exception.ErrorCode;
 import com.official.memento.global.exception.MementoException;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,8 @@ public class AuthService implements AuthUseCase {
     }
 
     @Override
-    public AuthorizationMember authenticate(final AuthCommand command) {
-        // provider 검증 로직 분리
+    public AuthResult authenticate(final AuthCommand command) {
         final AuthProvider provider = getAuthProvider(command.providerName());
-
-        // id token 검증 로직 분리
         final Map<String, Object> tokenInfo = verifyIdToken(provider, command.idToken());
         final String userId = (String) tokenInfo.get("sub");
         final String email = (String) tokenInfo.get("email");
@@ -44,19 +42,18 @@ public class AuthService implements AuthUseCase {
 
         final boolean isNewUser = (member == null); // new user 여부
         if (isNewUser) {
-            // 새 사용자일 경우
             member = AuthorizationMember.of(userId, provider, null, true); // isNewUser = true
             authRepository.save(member);
         } else {
-            // 기존 사용자일 경우
             member = AuthorizationMember.of(userId, provider, member.getRefreshToken(), false); // isNewUser = false
         }
 
-        // jwt 토큰 생성
         final String accessToken = jwtUtil.generateAccessToken(userId, email);
         final String refreshToken = jwtUtil.generateRefreshToken(userId);
 
-        return AuthorizationMember.of(userId, provider, refreshToken, isNewUser);
+        member = AuthorizationMember.of(userId, provider, refreshToken, isNewUser);
+
+        return new AuthResult(accessToken, member);
     }
 
     private AuthProvider getAuthProvider(final String providerName) {

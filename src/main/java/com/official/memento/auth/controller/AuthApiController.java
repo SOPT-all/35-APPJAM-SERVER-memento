@@ -3,6 +3,7 @@ package com.official.memento.auth.controller;
 import com.official.memento.auth.controller.dto.AuthApiRequest;
 import com.official.memento.auth.controller.dto.AuthApiResponse;
 import com.official.memento.auth.domain.AuthorizationMember;
+import com.official.memento.auth.service.AuthResult;
 import com.official.memento.auth.service.AuthService;
 import com.official.memento.auth.service.command.AuthCommand;
 import com.official.memento.global.dto.SuccessResponse;
@@ -26,13 +27,13 @@ public class AuthApiController {
     @PostMapping("/api/v1/auth/login")
     public ResponseEntity<SuccessResponse<AuthApiResponse>> login(@Valid @RequestBody final AuthApiRequest request) {
         final AuthCommand command = AuthCommand.of(request.provider(), request.idToken());
-        final AuthorizationMember result = authService.authenticate(command);
+        final AuthResult authResult = authService.authenticate(command);
 
         final AuthApiResponse response = new AuthApiResponse(
                 "소셜 로그인 성공",
-                result.getPlatformId(), // AccessToken 대체
-                result.getRefreshToken(),
-                result.isNewUser()
+                authResult.getAccessToken(), // Access Token
+                authResult.getAuthorizationMember().getRefreshToken(),
+                authResult.getAuthorizationMember().isNewUser()
         );
         return SuccessResponse.of(HttpStatus.OK, "소셜 로그인 성공", response);
     }
