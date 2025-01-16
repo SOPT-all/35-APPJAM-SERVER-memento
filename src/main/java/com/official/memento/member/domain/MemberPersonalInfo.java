@@ -17,34 +17,67 @@ public class MemberPersonalInfo {
     private Boolean isPreferReminder;
     private Boolean isImportantBreaks;
 
-    public static MemberPersonalInfo of(final Long memberId, final LocalTime wakeUpTime, final LocalTime windDownTime,
-                                        final JobType job, final String jobOtherDetail,
-                                        final Boolean isStressedUnorganizedSchedule,
-                                        final Boolean isForgetImportantThings,
-                                        final Boolean isPreferReminder,
-                                        final Boolean isImportantBreaks) {
-        return new MemberPersonalInfo(null, memberId, wakeUpTime, windDownTime, job, jobOtherDetail,
-                isStressedUnorganizedSchedule, isForgetImportantThings,
-                isPreferReminder, isImportantBreaks);
+    public static MemberPersonalInfo of(
+            final Long memberId,
+            final LocalTime wakeUpTime,
+            final LocalTime windDownTime,
+            final JobType job,
+            final String jobOtherDetail,
+            final Boolean isStressedUnorganizedSchedule,
+            final Boolean isForgetImportantThings,
+            final Boolean isPreferReminder,
+            final Boolean isImportantBreaks)
+    {
+        return new MemberPersonalInfo(
+                null,
+                memberId,
+                wakeUpTime,
+                windDownTime,
+                job,
+                jobOtherDetail,
+                isStressedUnorganizedSchedule,
+                isForgetImportantThings,
+                isPreferReminder,
+                isImportantBreaks);
     }
 
-    public static MemberPersonalInfo withId(final Long id, final Long memberId, final LocalTime wakeUpTime, final LocalTime windDownTime,
-                                            final JobType job, final String jobOtherDetail,
-                                            final Boolean isStressedUnorganizedSchedule,
-                                            final Boolean isForgetImportantThings,
-                                            final Boolean isPreferReminder,
-                                            final Boolean isImportantBreaks) {
-        return new MemberPersonalInfo(id, memberId, wakeUpTime, windDownTime, job, jobOtherDetail,
-                isStressedUnorganizedSchedule, isForgetImportantThings,
-                isPreferReminder, isImportantBreaks);
+    public static MemberPersonalInfo withId(
+            final Long id,
+            final Long memberId,
+            final LocalTime wakeUpTime,
+            final LocalTime windDownTime,
+            final JobType job,
+            final String jobOtherDetail,
+            final Boolean isStressedUnorganizedSchedule,
+            final Boolean isForgetImportantThings,
+            final Boolean isPreferReminder,
+            final Boolean isImportantBreaks)
+    {
+        return new MemberPersonalInfo(
+                id,
+                memberId,
+                wakeUpTime,
+                windDownTime,
+                job,
+                jobOtherDetail,
+                isStressedUnorganizedSchedule,
+                isForgetImportantThings,
+                isPreferReminder,
+                isImportantBreaks);
     }
 
-    private MemberPersonalInfo(final Long id, final Long memberId, final LocalTime wakeUpTime, final LocalTime windDownTime,
-                               final JobType job, final String jobOtherDetail,
-                               final Boolean isStressedUnorganizedSchedule,
-                               final Boolean isForgetImportantThings,
-                               final Boolean isPreferReminder,
-                               final Boolean isImportantBreaks) {
+    private MemberPersonalInfo(
+            final Long id,
+            final Long memberId,
+            final LocalTime wakeUpTime,
+            final LocalTime windDownTime,
+            final JobType job,
+            final String jobOtherDetail,
+            final Boolean isStressedUnorganizedSchedule,
+            final Boolean isForgetImportantThings,
+            final Boolean isPreferReminder,
+            final Boolean isImportantBreaks)
+    {
         this.id = id;
         this.memberId = memberId;
         this.wakeUpTime = wakeUpTime;
@@ -65,7 +98,8 @@ public class MemberPersonalInfo {
             final Boolean isStressedUnorganizedSchedule,
             final Boolean isForgetImportantThings,
             final Boolean isPreferReminder,
-            final Boolean isImportantBreaks) {
+            final Boolean isImportantBreaks)
+    {
         this.wakeUpTime = wakeUpTime;
         this.windDownTime = windDownTime;
         this.job = job;

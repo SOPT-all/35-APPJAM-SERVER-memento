@@ -3,7 +3,7 @@ package com.official.memento.member.infrastructure.persistence;
 import com.official.memento.member.domain.MemberPersonalInfo;
 
 public class MemberPersonalInfoMapper {
-    public static MemberPersonalInfo toDomain(MemberPersonalInfoEntity entity) {
+    public static MemberPersonalInfo toDomain(final MemberPersonalInfoEntity entity) {
         return MemberPersonalInfo.of(
                 entity.getMemberId(),
                 entity.getWakeUpTime(),
@@ -13,11 +13,10 @@ public class MemberPersonalInfoMapper {
                 entity.getIsStressedUnorganizedSchedule(),
                 entity.getIsForgetImportantThings(),
                 entity.getIsPreferReminder(),
-                entity.getIsImportantBreaks()
-        );
+                entity.getIsImportantBreaks());
     }
 
-    public static MemberPersonalInfoEntity toEntity(MemberPersonalInfo domain) {
+    public static MemberPersonalInfoEntity toEntity(final MemberPersonalInfo domain) {
         return MemberPersonalInfoEntity.of(
                 domain.getMemberId(),
                 domain.getWakeUpTime(),
@@ -27,7 +26,6 @@ public class MemberPersonalInfoMapper {
                 domain.getIsStressedUnorganizedSchedule(),
                 domain.getIsForgetImportantThings(),
                 domain.getIsPreferReminder(),
-                domain.getIsImportantBreaks()
-        );
+                domain.getIsImportantBreaks());
     }
 }

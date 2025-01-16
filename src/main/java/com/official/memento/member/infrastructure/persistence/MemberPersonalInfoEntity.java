@@ -35,12 +35,17 @@ public class MemberPersonalInfoEntity {
     public MemberPersonalInfoEntity() {
     }
 
-    private MemberPersonalInfoEntity(Long memberId, LocalTime wakeUpTime, LocalTime windDownTime,
-                                     JobType job, String jobOtherDetail,
-                                     Boolean isStressedUnorganizedSchedule,
-                                     Boolean isForgetImportantThings,
-                                     Boolean isPreferReminder,
-                                     Boolean isImportantBreaks) {
+    private MemberPersonalInfoEntity(
+            final Long memberId,
+            final LocalTime wakeUpTime,
+            final LocalTime windDownTime,
+            final JobType job,
+            final String jobOtherDetail,
+            final Boolean isStressedUnorganizedSchedule,
+            final Boolean isForgetImportantThings,
+            final Boolean isPreferReminder,
+            final Boolean isImportantBreaks)
+    {
         this.memberId = memberId;
         this.wakeUpTime = wakeUpTime;
         this.windDownTime = windDownTime;
@@ -52,12 +57,17 @@ public class MemberPersonalInfoEntity {
         this.isImportantBreaks = isImportantBreaks;
     }
 
-    public static MemberPersonalInfoEntity of(Long memberId, LocalTime wakeUpTime, LocalTime windDownTime,
-                                              JobType job, String jobOtherDetail,
-                                              Boolean isStressedUnorganizedSchedule,
-                                              Boolean isForgetImportantThings,
-                                              Boolean isPreferReminder,
-                                              Boolean isImportantBreaks) {
+    public static MemberPersonalInfoEntity of(
+            final Long memberId,
+            final LocalTime wakeUpTime,
+            final LocalTime windDownTime,
+            final JobType job,
+            final String jobOtherDetail,
+            final Boolean isStressedUnorganizedSchedule,
+            final Boolean isForgetImportantThings,
+            final Boolean isPreferReminder,
+            final Boolean isImportantBreaks)
+    {
         return new MemberPersonalInfoEntity(
                 memberId, wakeUpTime, windDownTime, job, jobOtherDetail,
                 isStressedUnorganizedSchedule, isForgetImportantThings,
@@ -65,7 +75,7 @@ public class MemberPersonalInfoEntity {
         );
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -107,5 +117,25 @@ public class MemberPersonalInfoEntity {
 
     public Boolean getIsImportantBreaks() {
         return isImportantBreaks;
+    }
+
+    // 추가된 updateFields 메서드
+    public void updateFields(
+            final LocalTime wakeUpTime,
+            final LocalTime windDownTime,
+            final JobType job,
+            final String jobOtherDetail,
+            final Boolean isStressedUnorganizedSchedule,
+            final Boolean isForgetImportantThings,
+            final Boolean isPreferReminder,
+            final Boolean isImportantBreaks) {
+        this.wakeUpTime = wakeUpTime;
+        this.windDownTime = windDownTime;
+        this.job = job;
+        this.jobOtherDetail = jobOtherDetail;
+        this.isStressedUnorganizedSchedule = isStressedUnorganizedSchedule;
+        this.isForgetImportantThings = isForgetImportantThings;
+        this.isPreferReminder = isPreferReminder;
+        this.isImportantBreaks = isImportantBreaks;
     }
 }

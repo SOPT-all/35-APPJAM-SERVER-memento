@@ -15,19 +15,16 @@ public class MemberService implements MemberPersonalInfoUseCase {
 
     private final MemberPersonalInfoRepository memberPersonalInfoRepository;
 
-    public MemberService(MemberPersonalInfoRepository memberPersonalInfoRepository) {
+    public MemberService(final MemberPersonalInfoRepository memberPersonalInfoRepository) {
         this.memberPersonalInfoRepository = memberPersonalInfoRepository;
     }
 
     @Override
     @Transactional
-    public MemberPersonalInfo updatePersonalInfo(MemberPersonalInfoCommand command) {
-        final MemberPersonalInfo existingInfo = memberPersonalInfoRepository.findByMemberId(command.memberId());
-
-        if (existingInfo == null) {
-            throw new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY);
-        }
-
+    public MemberPersonalInfo updatePersonalInfo(final MemberPersonalInfoCommand command) {
+        final MemberPersonalInfo existingInfo = memberPersonalInfoRepository
+                .findByMemberId(command.memberId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY));
         existingInfo.update(
                 command.wakeUpTime(),
                 command.windDownTime(),
@@ -37,7 +34,6 @@ public class MemberService implements MemberPersonalInfoUseCase {
                 command.isForgetImportantThings(),
                 command.isPreferReminder(),
                 command.isImportantBreaks());
-
-        return memberPersonalInfoRepository.save(existingInfo);
+        return memberPersonalInfoRepository.update(existingInfo);
     }
 }

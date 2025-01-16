@@ -6,82 +6,54 @@ import com.official.memento.global.stereotype.Adapter;
 import com.official.memento.member.domain.MemberPersonalInfo;
 import com.official.memento.member.domain.port.MemberPersonalInfoRepository;
 import com.official.memento.member.infrastructure.persistence.MemberPersonalInfoEntity;
-import com.official.memento.member.infrastructure.persistence.MemberPersonalInfoJpaRepository;
+import com.official.memento.member.infrastructure.persistence.MemberPersonalInfoEntityJpaRepository;
+import com.official.memento.member.infrastructure.persistence.MemberPersonalInfoMapper;
+
+import java.util.Optional;
 
 @Adapter
 public class MemberPersonalInfoRepositoryAdapter implements MemberPersonalInfoRepository {
-    private final MemberPersonalInfoJpaRepository memberPersonalInfoJpaRepository;
+    private final MemberPersonalInfoEntityJpaRepository memberPersonalInfoEntityJpaRepository;
 
-    public MemberPersonalInfoRepositoryAdapter(MemberPersonalInfoJpaRepository memberPersonalInfoJpaRepository) {
-        this.memberPersonalInfoJpaRepository = memberPersonalInfoJpaRepository;
+    public MemberPersonalInfoRepositoryAdapter(final MemberPersonalInfoEntityJpaRepository memberPersonalInfoEntityJpaRepository) {
+        this.memberPersonalInfoEntityJpaRepository = memberPersonalInfoEntityJpaRepository;
     }
 
     @Override
-    public MemberPersonalInfo findByMemberId(Long memberId) {
-        final MemberPersonalInfoEntity entity = memberPersonalInfoJpaRepository.findByMemberId(memberId);
-        if (entity == null) {
+    public Optional<MemberPersonalInfo> findByMemberId(final Long memberId) {
+        MemberPersonalInfoEntity entity = memberPersonalInfoEntityJpaRepository.findByMemberId(memberId);
+        return Optional.of(MemberPersonalInfoMapper.toDomain(entity));
+    }
+
+    @Override
+    public MemberPersonalInfo create(final MemberPersonalInfo memberPersonalInfo) {
+        if (memberPersonalInfoEntityJpaRepository.findByMemberId(memberPersonalInfo.getMemberId()) != null) {
+            throw new IllegalStateException("이미 존재하는 회원 정보입니다.");
+        }
+        MemberPersonalInfoEntity entityToSave = MemberPersonalInfoMapper.toEntity(memberPersonalInfo);
+        MemberPersonalInfoEntity savedEntity = memberPersonalInfoEntityJpaRepository.save(entityToSave);
+        return MemberPersonalInfoMapper.toDomain(savedEntity);
+    }
+
+    @Override
+    public MemberPersonalInfo update(final MemberPersonalInfo memberPersonalInfo) {
+        MemberPersonalInfoEntity existingEntity = memberPersonalInfoEntityJpaRepository.findByMemberId(
+                memberPersonalInfo.getMemberId()
+        );
+        if (existingEntity == null) {
             throw new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY);
         }
-        return MemberPersonalInfo.of(
-                entity.getMemberId(),
-                entity.getWakeUpTime(),
-                entity.getWindDownTime(),
-                entity.getJob(),
-                entity.getJobOtherDetail(),
-                entity.getIsStressedUnorganizedSchedule(),
-                entity.getIsForgetImportantThings(),
-                entity.getIsPreferReminder(),
-                entity.getIsImportantBreaks()
+        existingEntity.updateFields(
+                memberPersonalInfo.getWakeUpTime(),
+                memberPersonalInfo.getWindDownTime(),
+                memberPersonalInfo.getJob(),
+                memberPersonalInfo.getJobOtherDetail(),
+                memberPersonalInfo.getIsStressedUnorganizedSchedule(),
+                memberPersonalInfo.getIsForgetImportantThings(),
+                memberPersonalInfo.getIsPreferReminder(),
+                memberPersonalInfo.getIsImportantBreaks()
         );
-    }
-
-    @Override
-    public MemberPersonalInfo save(MemberPersonalInfo memberPersonalInfo) {
-        // 기존 엔티티 찾기
-        final MemberPersonalInfoEntity existingEntity = memberPersonalInfoJpaRepository.findByMemberId(memberPersonalInfo.getMemberId());
-
-        MemberPersonalInfoEntity entityToSave;
-        if (existingEntity != null) {
-            // 기존 엔티티가 있다면 업데이트
-            entityToSave = MemberPersonalInfoEntity.of(
-                    memberPersonalInfo.getMemberId(),
-                    memberPersonalInfo.getWakeUpTime(),
-                    memberPersonalInfo.getWindDownTime(),
-                    memberPersonalInfo.getJob(),
-                    memberPersonalInfo.getJobOtherDetail(),
-                    memberPersonalInfo.getIsStressedUnorganizedSchedule(),
-                    memberPersonalInfo.getIsForgetImportantThings(),
-                    memberPersonalInfo.getIsPreferReminder(),
-                    memberPersonalInfo.getIsImportantBreaks()
-            );
-            // 기존 id 설정
-            entityToSave.setId(existingEntity.getId());
-        } else {
-            // 없다먼 새로운 엔티티 생성
-            entityToSave = MemberPersonalInfoEntity.of(
-                    memberPersonalInfo.getMemberId(),
-                    memberPersonalInfo.getWakeUpTime(),
-                    memberPersonalInfo.getWindDownTime(),
-                    memberPersonalInfo.getJob(),
-                    memberPersonalInfo.getJobOtherDetail(),
-                    memberPersonalInfo.getIsStressedUnorganizedSchedule(),
-                    memberPersonalInfo.getIsForgetImportantThings(),
-                    memberPersonalInfo.getIsPreferReminder(),
-                    memberPersonalInfo.getIsImportantBreaks()
-            );
-        }
-
-        MemberPersonalInfoEntity savedEntity = memberPersonalInfoJpaRepository.save(entityToSave);
-        return MemberPersonalInfo.of(
-                savedEntity.getMemberId(),
-                savedEntity.getWakeUpTime(),
-                savedEntity.getWindDownTime(),
-                savedEntity.getJob(),
-                savedEntity.getJobOtherDetail(),
-                savedEntity.getIsStressedUnorganizedSchedule(),
-                savedEntity.getIsForgetImportantThings(),
-                savedEntity.getIsPreferReminder(),
-                savedEntity.getIsImportantBreaks()
-        );
+        MemberPersonalInfoEntity savedEntity = memberPersonalInfoEntityJpaRepository.save(existingEntity);
+        return MemberPersonalInfoMapper.toDomain(savedEntity);
     }
 }

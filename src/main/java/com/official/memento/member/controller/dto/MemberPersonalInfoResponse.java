@@ -18,21 +18,20 @@ public record MemberPersonalInfoResponse(
         Boolean isImportantBreaks
 ) {
     public static MemberPersonalInfoResponse of(
-            Long memberId,
-            LocalTime wakeUpTime,
-            LocalTime windDownTime,
-            JobType job,
-            String jobOtherDetail,
-            Boolean isStressedUnorganizedSchedule,
-            Boolean isForgetImportantThings,
-            Boolean isPreferReminder,
-            Boolean isImportantBreaks) {
-
+            final Long memberId,
+            final LocalTime wakeUpTime,
+            final LocalTime windDownTime,
+            final JobType job,
+            final String jobOtherDetail,
+            final Boolean isStressedUnorganizedSchedule,
+            final Boolean isForgetImportantThings,
+            final Boolean isPreferReminder,
+            final Boolean isImportantBreaks)
+    {
         validateNull(isStressedUnorganizedSchedule);
         validateNull(isForgetImportantThings);
         validateNull(isPreferReminder);
         validateNull(isImportantBreaks);
-
         return new MemberPersonalInfoResponse(
                 memberId,
                 wakeUpTime,
@@ -46,7 +45,7 @@ public record MemberPersonalInfoResponse(
         );
     }
 
-    private static void validateNull(Object field) {
+    private static void validateNull(final Object field) {
         if (field == null) {
             throw new MementoException(ErrorCode.NULL_DATA_ERROR);
         }

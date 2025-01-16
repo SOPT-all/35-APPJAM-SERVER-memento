@@ -20,19 +20,18 @@ public class MemberApiController {
 
     private final MemberPersonalInfoUseCase memberPersonalInfoUseCase;
 
-    public MemberApiController(MemberPersonalInfoUseCase memberPersonalInfoUseCase) {
+    public MemberApiController(final MemberPersonalInfoUseCase memberPersonalInfoUseCase) {
         this.memberPersonalInfoUseCase = memberPersonalInfoUseCase;
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<?> updatePersonalInfo(
             //@Authorization final AuthorizationUser authorizationUser,
-            @RequestBody final MemberPersonalInfoRequest request
-    ) {
+            @RequestBody final MemberPersonalInfoRequest request)
+    {
         //test용, 로그인 구현되면 지우기
-        AuthorizationUser authorizationUser = new AuthorizationUser(2L);
-
-        MemberPersonalInfo personalInfo = memberPersonalInfoUseCase.updatePersonalInfo(
+        final AuthorizationUser authorizationUser = new AuthorizationUser(2L);
+        final MemberPersonalInfo personalInfo = memberPersonalInfoUseCase.updatePersonalInfo(
                 new MemberPersonalInfoCommand(
                         authorizationUser.memberId(),
                         request.wakeUpTime(),
@@ -42,25 +41,8 @@ public class MemberApiController {
                         request.isStressedUnorganizedSchedule(),
                         request.isForgetImportantThings(),
                         request.isPreferReminder(),
-                        request.isImportantBreaks()
-                )
+                        request.isImportantBreaks())
         );
-
-        MemberPersonalInfoResponse response = convertToResponse(personalInfo);
-        return SuccessResponse.of(HttpStatus.OK, "회원 개인 정보 업데이트 성공", response);
-    }
-
-    private MemberPersonalInfoResponse convertToResponse(MemberPersonalInfo info) {
-        return new MemberPersonalInfoResponse(
-                info.getMemberId(),
-                info.getWakeUpTime(),
-                info.getWindDownTime(),
-                info.getJob(),
-                info.getJobOtherDetail(),
-                info.getIsStressedUnorganizedSchedule(),
-                info.getIsForgetImportantThings(),
-                info.getIsPreferReminder(),
-                info.getIsImportantBreaks()
-        );
+        return SuccessResponse.of(HttpStatus.OK, "회원 개인 정보 업데이트 성공");
     }
 }
