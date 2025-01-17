@@ -5,5 +5,5 @@ import com.official.memento.todo.service.command.ToDoCreateCommand;
 
 @FunctionalInterface
 public interface ToDoCreateUseCase {
-    ToDo create(ToDoCreateCommand command);
+    void create(ToDoCreateCommand command);
 }

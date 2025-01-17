@@ -15,35 +15,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/todo")
+@RequestMapping("/api/v1/todos")
 public class ToDoApiController {
 
     private final ToDoCreateUseCase toDoCreateUseCase;
 
-    public ToDoApiController(ToDoCreateUseCase toDoCreateUseCase) {
+    public ToDoApiController(
+            final ToDoCreateUseCase toDoCreateUseCase
+    ) {
         this.toDoCreateUseCase = toDoCreateUseCase;
     }
 
     @PostMapping
     public ResponseEntity<SuccessResponse<?>> createToDo(
-            @Authorization final AuthorizationUser authorizationUser,
+            //@Authorization final AuthorizationUser authorizationUser,
             @RequestBody final ToDoCreateRequest request
     ) {
-        ToDo toDo = toDoCreateUseCase.create(
-               ToDoCreateUseCase.of(
+        //test용, 로그인 구현되면 지우기
+        final AuthorizationUser authorizationUser = new AuthorizationUser(2L);
+
+        toDoCreateUseCase.create(ToDoCreateCommand.of(
                         authorizationUser.memberId(),
                         request.date(),
                         request.description(),
                         request.deadline(),
-                        request.isRepeated(),
                         request.repeatOption(),
                         request.repeatExpiredDate(),
                         request.tagId(),
-                        request.priorityType()
+                        request.priorityUrgency(),
+                        request.priorityImportance()
                 )
         );
         return SuccessResponse.of(
-                HttpStatus.OK,
+                HttpStatus.CREATED,
                 "ToDo 생성 성공"
         );
     }

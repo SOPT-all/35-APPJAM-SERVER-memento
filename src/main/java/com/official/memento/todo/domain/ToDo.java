@@ -1,13 +1,15 @@
 package com.official.memento.todo.domain;
 
 import com.official.memento.global.entity.enums.RepeatOption;
+import com.official.memento.todo.domain.enums.PriorityType;
+import com.official.memento.todo.domain.enums.ToDoType;
 
 import java.time.LocalDate;
 
 public class ToDo {
     private Long id;
     private long memberId;
-    private String toDoGroupId;
+    private String groupId;
     private LocalDate date;
     private String description;
     private LocalDate deadline;
@@ -18,13 +20,13 @@ public class ToDo {
     private Double priorityImportance;
     private Double priorityValue;
     private String priorityType;
-    private String toDoType;
+    private ToDoType type;
     private int order;
 
     private ToDo(
             final Long id,
             final long memberId,
-            final String toDoGroupId,
+            final String groupId,
             final LocalDate date,
             final String description,
             final LocalDate deadline,
@@ -35,12 +37,12 @@ public class ToDo {
             final Double priorityImportance,
             final Double priorityValue,
             final String priorityType,
-            final String toDoType,
+            final ToDoType type,
             final int order
     ) {
         this.id = id;
         this.memberId = memberId;
-        this.toDoGroupId = toDoGroupId;
+        this.groupId = groupId;
         this.date = date;
         this.description = description;
         this.deadline = deadline;
@@ -51,13 +53,13 @@ public class ToDo {
         this.priorityImportance = priorityImportance;
         this.priorityValue = priorityValue;
         this.priorityType = priorityType;
-        this.toDoType = toDoType;
+        this.type = type;
         this.order = order;
     }
 
     private ToDo(
             final long memberId,
-            final String toDoGroupId,
+            final String groupId,
             final LocalDate date,
             final String description,
             final LocalDate deadline,
@@ -68,11 +70,11 @@ public class ToDo {
             final Double priorityImportance,
             final Double priorityValue,
             final String priorityType,
-            final String toDoType,
+            final ToDoType type,
             final int order
     ) {
         this.memberId = memberId;
-        this.toDoGroupId = toDoGroupId;
+        this.groupId = groupId;
         this.date = date;
         this.description = description;
         this.deadline = deadline;
@@ -83,14 +85,14 @@ public class ToDo {
         this.priorityImportance = priorityImportance;
         this.priorityValue = priorityValue;
         this.priorityType = priorityType;
-        this.toDoType = toDoType;
+        this.type = type;
         this.order = order;
     }
 
     public static ToDo withId(
             final Long id,
             final long memberId,
-            final String toDoGroupId,
+            final String groupId,
             final LocalDate date,
             final String description,
             final LocalDate deadline,
@@ -101,13 +103,13 @@ public class ToDo {
             final Double priorityImportance,
             final Double priorityValue,
             final String priorityType,
-            final String toDoType,
+            final ToDoType type,
             final int order
     ) {
         return new ToDo(
                 id,
                 memberId,
-                toDoGroupId,
+                groupId,
                 date,
                 description,
                 deadline,
@@ -118,14 +120,14 @@ public class ToDo {
                 priorityImportance,
                 priorityValue,
                 priorityType,
-                toDoType,
+                type,
                 order
         );
     }
 
     public static ToDo of(
             final long memberId,
-            final String toDoGroupId,
+            final String groupId,
             final LocalDate date,
             final String description,
             final LocalDate deadline,
@@ -136,12 +138,12 @@ public class ToDo {
             final Double priorityImportance,
             final Double priorityValue,
             final String priorityType,
-            final String toDoType,
+            final ToDoType type,
             final int order
     ) {
         return new ToDo(
                 memberId,
-                toDoGroupId,
+                groupId,
                 date,
                 description,
                 deadline,
@@ -152,7 +154,7 @@ public class ToDo {
                 priorityImportance,
                 priorityValue,
                 priorityType,
-                toDoType,
+                type,
                 order
         );
     }
@@ -165,8 +167,8 @@ public class ToDo {
         return memberId;
     }
 
-    public String getToDoGroupId() {
-        return toDoGroupId;
+    public String getGroupId() {
+        return groupId;
     }
 
     public LocalDate getDate() {
@@ -209,8 +211,8 @@ public class ToDo {
         return priorityType;
     }
 
-    public String getToDoType() {
-        return toDoType;
+    public ToDoType getType() {
+        return type;
     }
 
     public int getOrder() {
