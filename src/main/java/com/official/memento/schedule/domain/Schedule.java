@@ -114,6 +114,19 @@ public class Schedule {
         );
     }
 
+    public Schedule update(
+            final String description,
+            final LocalDateTime startDate,
+            final LocalDateTime endDate,
+            final boolean isAllDay
+    ) {
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isAllDay = isAllDay;
+        return this;
+    }
+
     public Long getId() {
         return id;
     }
