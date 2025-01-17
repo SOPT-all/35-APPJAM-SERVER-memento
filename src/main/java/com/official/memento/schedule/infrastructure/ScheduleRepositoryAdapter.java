@@ -60,7 +60,7 @@ public class ScheduleRepositoryAdapter implements ScheduleRepository {
     }
 
     @Override
-    public void deleteByGroupId(final String groupId) {
+    public void deleteAllByGroupId(final String groupId) {
         scheduleEntityJpaRepository.deleteAllByScheduleGroupId(groupId);
     }
 }

@@ -68,21 +68,25 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
     }
 
     @Override
+    @Transactional
     public void delete(final ScheduleDeleteCommand scheduleDeleteCommand) {
         Schedule schedule = scheduleRepository.findById(scheduleDeleteCommand.scheduleId());
-        if (schedule.getMemberId() != scheduleDeleteCommand.memberId()) {
-            throw new IllegalArgumentException("해당 스케줄을 소유하지 않음");//커스텀으로 바꿔야함
-        }
+        checkOwn(scheduleDeleteCommand.memberId(), schedule);
         scheduleRepository.deleteById(schedule.getId());
+        //태그 삭제
+        //순서 관련 삭제
     }
 
+
     @Override
+    @Transactional
     public void deleteAll(final ScheduleDeleteAllCommand scheduleDeleteAllCommand) {
         Schedule schedule = scheduleRepository.findById(scheduleDeleteAllCommand.scheduleId());
-        if (schedule.getMemberId() != scheduleDeleteAllCommand.memberId()) {
-            throw new IllegalArgumentException("해당 스케줄을 소유하지 않음");//커스텀으로 바꿔야함
-        }
-        scheduleRepository.deleteByGroupId(scheduleDeleteAllCommand.scheduleGroupId());
+        checkOwn(scheduleDeleteAllCommand.memberId(), schedule);
+        belongsToGroup(scheduleDeleteAllCommand.scheduleGroupId(), schedule);
+        scheduleRepository.deleteAllByGroupId(scheduleDeleteAllCommand.scheduleGroupId());
+        //태그 삭제
+        //순서 관련 삭제
     }
 
     private Schedule createSchedule(final ScheduleCreateCommand command, final String scheduleGroupId) {
@@ -135,5 +139,17 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
         tagRepository.findById(tagId);
         ScheduleTag scheduleTag = ScheduleTag.of(tagId, schedule.getId());
         scheduleTagRepository.save(scheduleTag);
+    }
+
+    private static void checkOwn(final long memberId, final Schedule schedule) {
+        if (schedule.getMemberId() != memberId) {
+            throw new IllegalArgumentException("해당 스케줄을 소유하지 않음");//커스텀으로 바꿔야함
+        }
+    }
+
+    private static void belongsToGroup(String scheduleGroupId, Schedule schedule) {
+        if (!schedule.getScheduleGroupId().equals(scheduleGroupId)) {
+            throw new IllegalArgumentException("해당 스케줄의 그룹 아이디와 일치하지 않습니다."); //커스텀
+        }
     }
 }

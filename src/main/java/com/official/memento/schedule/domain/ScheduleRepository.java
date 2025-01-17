@@ -7,5 +7,5 @@ public interface ScheduleRepository {
 
     void deleteById(final long scheduleId);
 
-    void deleteByGroupId(final String groupId);
+    void deleteAllByGroupId(final String groupId);
 }

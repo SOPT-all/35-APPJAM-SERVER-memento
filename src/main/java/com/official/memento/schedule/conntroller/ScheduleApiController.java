@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/schedule")
+@RequestMapping("/api/v1/schedules")
 public class ScheduleApiController {
 
     private final ScheduleCreateUseCase scheduleCreateUseCase;
@@ -40,12 +40,12 @@ public class ScheduleApiController {
 
     @PostMapping
     ResponseEntity<SuccessResponse<?>> createSchedule(
-            @Authorization final AuthorizationUser authorizationUser,
+            //@Authorization final AuthorizationUser authorizationUser,
             @RequestBody final ScheduleCreateRequest scheduleCreateRequest
     ) {
         scheduleCreateUseCase.create(
                 ScheduleCreateCommand.of(
-                        authorizationUser.memberId(),
+                        1,
                         scheduleCreateRequest.description(),
                         scheduleCreateRequest.startDate(),
                         scheduleCreateRequest.endDate(),
@@ -61,12 +61,12 @@ public class ScheduleApiController {
 
     @PostMapping("/repetition")
     ResponseEntity<SuccessResponse<?>> createScheduleMultiple(
-            @Authorization final AuthorizationUser authorizationUser,
+            //@Authorization final AuthorizationUser authorizationUser,
             @RequestBody final RepeatScheduleCreateRequest repeatScheduleCreateRequest
     ) {
         repeatScheduleCreateUseCase.createRepeat(
                 RepeatScheduleCreateCommand.of(
-                        authorizationUser.memberId(),
+                        1,
                         repeatScheduleCreateRequest.description(),
                         repeatScheduleCreateRequest.startDate(),
                         repeatScheduleCreateRequest.endDate(),
@@ -84,25 +84,25 @@ public class ScheduleApiController {
 
     @DeleteMapping("/{scheduleId}")
     ResponseEntity<SuccessResponse<?>> deleteSchedule(
-            @Authorization final AuthorizationUser authorizationUser,
-            @RequestBody final long scheduleId
+            //@Authorization final AuthorizationUser authorizationUser,
+            @PathVariable final long scheduleId
     ) {
-        scheduleDeleteUseCase.delete(ScheduleDeleteCommand.of(authorizationUser.memberId(), scheduleId));
+        scheduleDeleteUseCase.delete(ScheduleDeleteCommand.of(1, scheduleId));
         return SuccessResponse.of(
-                HttpStatus.CREATED,
+                HttpStatus.OK,
                 "단일 스케줄 삭제 성공"
         );
     }
 
     @DeleteMapping("/{scheduleId}/all")
     ResponseEntity<SuccessResponse<?>> deleteScheduleAll(
-            @Authorization final AuthorizationUser authorizationUser,
-            @RequestBody final long scheduleId,
+            //@Authorization final AuthorizationUser authorizationUser,
+            @PathVariable final long scheduleId,
             @RequestParam final String scheduleGroupId
     ) {
-        scheduleDeleteAllUseCase.deleteAll(ScheduleDeleteAllCommand.of(authorizationUser.memberId(), scheduleId, scheduleGroupId));
+        scheduleDeleteAllUseCase.deleteAll(ScheduleDeleteAllCommand.of(1, scheduleId, scheduleGroupId));
         return SuccessResponse.of(
-                HttpStatus.CREATED,
+                HttpStatus.OK,
                 "단일 스케줄 삭제 성공"
         );
     }
