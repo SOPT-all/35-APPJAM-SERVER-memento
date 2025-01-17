@@ -36,7 +36,7 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
 
     private Long validateToken(String token) {
         return 1L;
-    }
+    } //1L이 아니라 Member id를 던지도록 바꿔야 함
 
     private String parseToken(String token) {
         // TODO : null check and throw AuthException
