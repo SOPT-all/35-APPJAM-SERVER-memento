@@ -1,4 +1,4 @@
-package com.official.memento.auth.infrastructure.jwt;
+package com.official.memento.auth.service;
 
 import com.official.memento.global.exception.ErrorCode;
 import com.official.memento.global.exception.MementoException;
