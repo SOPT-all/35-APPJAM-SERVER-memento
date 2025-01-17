@@ -25,4 +25,4 @@ springdoc:
 
 claude:
   ai:
-    api-key: ${CLAUDE_AI_API_KEY}
+    api-key: ${CLAUDE.API-KEY.local}
