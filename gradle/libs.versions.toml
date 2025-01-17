@@ -5,6 +5,7 @@ springDependencyManagement = "1.1.7"
 ktlint = "12.1.0"
 coroutines = "1.7.3"
 springdoc = "2.6.0"
+jjwt = "0.11.5"
 
 [libraries]
 spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
@@ -16,6 +17,11 @@ kotlinx-coroutines-reactor = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 spring-boot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
 springdoc-openapi-starter-webmvc-ui = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
 postgresql = { group = "org.postgresql", name = "postgresql" }
+
+# JWT
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
 
 # Test libraries
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
