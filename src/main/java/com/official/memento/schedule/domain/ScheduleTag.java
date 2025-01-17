@@ -31,6 +31,12 @@ public class ScheduleTag {
         return new ScheduleTag(tagId, scheduleId);
     }
 
+    public void updateTag(
+            final long tagId
+    ){
+        this.tagId = tagId;
+    }
+
     public Long getId() {
         return id;
     }
