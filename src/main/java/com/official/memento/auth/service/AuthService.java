@@ -55,6 +55,7 @@ public class AuthService implements AuthUseCase {
 
         member = AuthorizationMember.of(userId, provider, refreshToken, isNewUser);
 
+        // TODO : return type 수정
         return new AuthResult(accessToken, member);
     }
 
