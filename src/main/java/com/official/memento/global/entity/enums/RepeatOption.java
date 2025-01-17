@@ -4,5 +4,6 @@ public enum RepeatOption {
     NONE,
     DAILY,
     WEEKLY,
+    MONTHLY,
     YEARLY
 }
