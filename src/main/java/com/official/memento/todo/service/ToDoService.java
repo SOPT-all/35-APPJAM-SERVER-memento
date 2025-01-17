@@ -1,25 +1,19 @@
 package com.official.memento.todo.service;
 
 import com.official.memento.global.entity.enums.RepeatOption;
-import com.official.memento.global.exception.NullPointException;
 import com.official.memento.tag.domain.TagRepository;
 import com.official.memento.todo.domain.ToDo;
 import com.official.memento.todo.domain.ToDoRepository;
 import com.official.memento.todo.domain.ToDoTag;
 import com.official.memento.todo.domain.ToDoTagRepository;
-import com.official.memento.todo.domain.enums.EisenhowerMatrixQuadrant;
 import com.official.memento.todo.domain.enums.PriorityType;
-import com.official.memento.todo.domain.enums.ToDoType;
 import com.official.memento.todo.service.command.ToDoCreateCommand;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
-import static com.official.memento.global.entity.enums.RepeatOption.DAILY;
-import static com.official.memento.global.exception.ErrorCode.NULL_DATA_ERROR;
 import static com.official.memento.todo.domain.enums.ToDoType.NORMAL;
 
 @Service
@@ -116,15 +110,15 @@ public class ToDoService implements ToDoCreateUseCase {
     }
 
     private Double calculatePriorityValue(Double priorityUrgency, Double priorityImportance) {
-        if (priorityUrgency != null || priorityImportance != null) {
+        if (priorityUrgency != null && priorityImportance != null) {
             return (priorityUrgency * 0.7) + (priorityImportance * 0.3);
         } else {
-            throw new NullPointException(NULL_DATA_ERROR);
+            return -1.0;
         }
     }
 
     private PriorityType determinePriorityType(Double priorityUrgency, Double priorityImportance) {
-        return EisenhowerMatrixQuadrant.findQuadrant(priorityUrgency, priorityImportance).getPriorityType();
+        return PriorityType.findPriorityType(priorityUrgency, priorityImportance);
     }
 
     private void connectTag(final Long tagId, final ToDo toDo) {
