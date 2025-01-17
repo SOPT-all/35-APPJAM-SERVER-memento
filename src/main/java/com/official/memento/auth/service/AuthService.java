@@ -9,6 +9,7 @@ import com.official.memento.auth.service.usecase.AuthUseCase;
 import com.official.memento.global.exception.ErrorCode;
 import com.official.memento.global.exception.MementoException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -30,6 +31,7 @@ public class AuthService implements AuthUseCase {
     }
 
     @Override
+    @Transactional
     public AuthResult authenticate(final AuthCommand command) {
         final AuthProvider provider = getAuthProvider(command.providerName());
         final Map<String, Object> tokenInfo = verifyIdToken(provider, command.idToken());
