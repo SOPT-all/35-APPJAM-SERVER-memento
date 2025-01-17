@@ -45,12 +45,14 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     private Long validateToken(String token) {
+
         if (jwtUtil.validateToken(token)) {
             return Long.parseLong(jwtUtil.getUserIdFromToken(token));
         } else {
             throw new MementoException(ErrorCode.INVALID_ACCESS_TOKEN);
         }
     }
+
 
     private String parseToken(String token) {
         if (token == null || !token.startsWith(AUTHORIZATION_HEADER_PREFIX)) {
