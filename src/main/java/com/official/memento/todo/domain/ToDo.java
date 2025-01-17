@@ -21,7 +21,6 @@ public class ToDo {
     private Double priorityValue;
     private String priorityType;
     private ToDoType type;
-    private int order;
 
     private ToDo(
             final Long id,
@@ -37,8 +36,7 @@ public class ToDo {
             final Double priorityImportance,
             final Double priorityValue,
             final String priorityType,
-            final ToDoType type,
-            final int order
+            final ToDoType type
     ) {
         this.id = id;
         this.memberId = memberId;
@@ -54,7 +52,6 @@ public class ToDo {
         this.priorityValue = priorityValue;
         this.priorityType = priorityType;
         this.type = type;
-        this.order = order;
     }
 
     private ToDo(
@@ -70,8 +67,7 @@ public class ToDo {
             final Double priorityImportance,
             final Double priorityValue,
             final String priorityType,
-            final ToDoType type,
-            final int order
+            final ToDoType type
     ) {
         this.memberId = memberId;
         this.groupId = groupId;
@@ -86,7 +82,6 @@ public class ToDo {
         this.priorityValue = priorityValue;
         this.priorityType = priorityType;
         this.type = type;
-        this.order = order;
     }
 
     public static ToDo withId(
@@ -103,8 +98,7 @@ public class ToDo {
             final Double priorityImportance,
             final Double priorityValue,
             final String priorityType,
-            final ToDoType type,
-            final int order
+            final ToDoType type
     ) {
         return new ToDo(
                 id,
@@ -120,8 +114,7 @@ public class ToDo {
                 priorityImportance,
                 priorityValue,
                 priorityType,
-                type,
-                order
+                type
         );
     }
 
@@ -138,8 +131,7 @@ public class ToDo {
             final Double priorityImportance,
             final Double priorityValue,
             final String priorityType,
-            final ToDoType type,
-            final int order
+            final ToDoType type
     ) {
         return new ToDo(
                 memberId,
@@ -154,8 +146,7 @@ public class ToDo {
                 priorityImportance,
                 priorityValue,
                 priorityType,
-                type,
-                order
+                type
         );
     }
 
@@ -213,9 +204,5 @@ public class ToDo {
 
     public ToDoType getType() {
         return type;
-    }
-
-    public int getOrder() {
-        return order;
     }
 }

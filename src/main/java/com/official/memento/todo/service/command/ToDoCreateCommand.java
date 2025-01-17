@@ -12,8 +12,8 @@ public record ToDoCreateCommand(
         RepeatOption repeatOption,
         LocalDate repeatExpiredDate,
         Long tagId,
-        double priorityUrgency,
-        double priorityImportance
+        Double priorityUrgency,
+        Double priorityImportance
 ) {
     public static ToDoCreateCommand of(
             final long memberId,
@@ -23,8 +23,8 @@ public record ToDoCreateCommand(
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
             final Long tagId,
-            final double priorityUrgency,
-            final double priorityImportance
+            final Double priorityUrgency,
+            final Double priorityImportance
     ) {
         return new ToDoCreateCommand(
                 memberId,

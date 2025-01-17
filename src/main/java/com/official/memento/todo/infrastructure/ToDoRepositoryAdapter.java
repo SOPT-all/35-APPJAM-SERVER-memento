@@ -32,8 +32,7 @@ public class ToDoRepositoryAdapter implements ToDoRepository{
                 toDoEntity.getPriorityImportance(),
                 toDoEntity.getPriorityValue(),
                 toDoEntity.getPriorityType(),
-                toDoEntity.getType(),
-                toDoEntity.getOrder()
+                toDoEntity.getType()
         );
     }
 }

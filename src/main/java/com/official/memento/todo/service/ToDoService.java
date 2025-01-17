@@ -1,6 +1,7 @@
 package com.official.memento.todo.service;
 
 import com.official.memento.global.entity.enums.RepeatOption;
+import com.official.memento.global.exception.NullPointException;
 import com.official.memento.tag.domain.TagRepository;
 import com.official.memento.todo.domain.ToDo;
 import com.official.memento.todo.domain.ToDoRepository;
@@ -17,6 +18,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import static com.official.memento.global.entity.enums.RepeatOption.DAILY;
+import static com.official.memento.global.exception.ErrorCode.NULL_DATA_ERROR;
 import static com.official.memento.todo.domain.enums.ToDoType.NORMAL;
 
 @Service
@@ -72,7 +75,15 @@ public class ToDoService implements ToDoCreateUseCase {
                 connectTag(command.tagId(), toDo);
             }
 
-            currentDate = currentDate.plusDays(1);
+            if (command.repeatOption() == RepeatOption.DAILY) {
+                currentDate = currentDate.plusDays(1);
+            } else if (command.repeatOption() == RepeatOption.WEEKLY) {
+                currentDate = currentDate.plusWeeks(1);
+            } else if(command.repeatOption() == RepeatOption.MONTHLY) {
+                currentDate = currentDate.plusMonths(1);
+            } else {
+                currentDate = currentDate.plusYears(1);
+            }
         }
     }
 
@@ -90,14 +101,13 @@ public class ToDoService implements ToDoCreateUseCase {
                 command.description(),
                 command.deadline(),
                 false,
-                RepeatOption.NONE,
+                command.repeatOption(),
                 command.repeatExpiredDate(),
                 command.priorityUrgency(),
                 command.priorityImportance(),
                 priorityValue,
                 priorityType.name(),
-                NORMAL,
-                determineOrder()
+                NORMAL
         ));
     }
 
@@ -106,7 +116,11 @@ public class ToDoService implements ToDoCreateUseCase {
     }
 
     private Double calculatePriorityValue(Double priorityUrgency, Double priorityImportance) {
-        return (priorityUrgency * 0.7) + (priorityImportance * 0.3);
+        if (priorityUrgency != null || priorityImportance != null) {
+            return (priorityUrgency * 0.7) + (priorityImportance * 0.3);
+        } else {
+            throw new NullPointException(NULL_DATA_ERROR);
+        }
     }
 
     private PriorityType determinePriorityType(Double priorityUrgency, Double priorityImportance) {

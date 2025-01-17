@@ -32,8 +32,6 @@ public class ToDoEntity extends BaseTimeEntity {
     private String priorityType;
     @Enumerated(EnumType.STRING)
     private ToDoType type;
-    @Column(name = "todo_order")
-    private int order;
 
     private ToDoEntity(
             final long memberId,
@@ -48,8 +46,7 @@ public class ToDoEntity extends BaseTimeEntity {
             final Double priorityImportance,
             final Double priorityValue,
             final String priorityType,
-            final ToDoType type,
-            final int order
+            final ToDoType type
     ) {
         this.memberId = memberId;
         this.groupId = groupId;
@@ -64,7 +61,6 @@ public class ToDoEntity extends BaseTimeEntity {
         this.priorityValue = priorityValue;
         this.priorityType = priorityType;
         this.type = type;
-        this.order = order;
     }
 
     public static ToDoEntity of(final ToDo toDo) {
@@ -81,8 +77,7 @@ public class ToDoEntity extends BaseTimeEntity {
                 toDo.getPriorityImportance(),
                 toDo.getPriorityValue(),
                 toDo.getPriorityType(),
-                toDo.getType(),
-                toDo.getOrder()
+                toDo.getType()
         );
     }
 
@@ -140,9 +135,5 @@ public class ToDoEntity extends BaseTimeEntity {
 
     public ToDoType getType() {
         return type;
-    }
-
-    public int getOrder() {
-        return order;
     }
 }

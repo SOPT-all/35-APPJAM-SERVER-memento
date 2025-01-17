@@ -23,9 +23,9 @@ public record ToDoCreateRequest(
         @Schema(description = "태그 ID", example = "12345")
         Long tagId,
         @Schema(description = "긴급도 우선순위 (0~1)", example = "0.5")
-        double priorityUrgency,
+        Double priorityUrgency,
         @Schema(description = "중요도 우선순위 (0~1)", example = "0.5")
-        double priorityImportance
+        Double priorityImportance
 ) {
     public ToDoCreateRequest(
             final LocalDate date,
@@ -34,21 +34,13 @@ public record ToDoCreateRequest(
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
             final Long tagId,
-            final double priorityUrgency,
-            final double priorityImportance
+            final Double priorityUrgency,
+            final Double priorityImportance
     ) {
         checkNullData(date, description, repeatOption);
 
         if (description.length() > 30) {
             throw new IllegalArgumentException("30자 이하로만 작성이 가능합니다.");
-        }
-
-        if (priorityUrgency < 0 || priorityUrgency > 1) {
-            throw new IllegalArgumentException("priorityUrgency 값은 0과 1 사이여야 합니다.");
-        }
-
-        if (priorityImportance < 0 || priorityImportance > 1) {
-            throw new IllegalArgumentException("priorityImportance 값은 0과 1 사이여야 합니다.");
         }
 
         this.date = date;
