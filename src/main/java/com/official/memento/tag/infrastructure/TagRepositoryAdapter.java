@@ -6,15 +6,17 @@ import com.official.memento.global.stereotype.Adapter;
 import com.official.memento.tag.domain.Tag;
 import com.official.memento.tag.domain.TagRepository;
 import com.official.memento.tag.infrastructure.persistence.TagEntity;
-import com.official.memento.tag.infrastructure.persistence.TagEntityJpaRepository;
+import com.official.memento.tag.infrastructure.persistence.TagJpaRepository;
+
+import java.util.List;
 
 @Adapter
 public class TagRepositoryAdapter implements TagRepository {
 
-    private final TagEntityJpaRepository tagEntityJpaRepository;
+    private final TagJpaRepository tagJpaRepository;
 
-    public TagRepositoryAdapter(TagEntityJpaRepository tagEntityJpaRepository) {
-        this.tagEntityJpaRepository = tagEntityJpaRepository;
+    public TagRepositoryAdapter(TagJpaRepository tagJpaRepository) {
+        this.tagJpaRepository = tagJpaRepository;
     }
 
     @Override
@@ -24,7 +26,7 @@ public class TagRepositoryAdapter implements TagRepository {
                 tag.getColor(),
                 tag.getMemberId()
         );
-        TagEntity savedEntity = tagEntityJpaRepository.save(entity);
+        TagEntity savedEntity = tagJpaRepository.save(entity);
         return Tag.withId(
                 savedEntity.getId(),
                 savedEntity.getName(),
@@ -35,7 +37,7 @@ public class TagRepositoryAdapter implements TagRepository {
 
     @Override
     public Tag findById(Long id) {
-        final TagEntity entity = tagEntityJpaRepository.findById(id)
+        final TagEntity entity = tagJpaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY));
         return Tag.withId(
                 entity.getId(),
@@ -43,5 +45,18 @@ public class TagRepositoryAdapter implements TagRepository {
                 entity.getColor(),
                 entity.getMemberId()
         );
+    }
+
+    @Override
+    public List<Tag> findAllByMemberId(Long memberId) {
+        return tagJpaRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(entity -> Tag.withId(
+                        entity.getId(),
+                        entity.getName(),
+                        entity.getColor(),
+                        entity.getMemberId()
+                ))
+                .toList();
     }
 }
