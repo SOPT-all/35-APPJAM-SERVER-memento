@@ -1,8 +1,8 @@
 package com.official.memento.schedule.infrastructure.persistence;
 
 import com.official.memento.global.entity.BaseTimeEntity;
-import com.official.memento.schedule.domain.Schedule;
 import com.official.memento.global.entity.enums.RepeatOption;
+import com.official.memento.schedule.domain.Schedule;
 import com.official.memento.schedule.domain.enums.ScheduleType;
 import jakarta.persistence.*;
 
@@ -26,6 +26,7 @@ public class ScheduleEntity extends BaseTimeEntity {
     private LocalDate repeatExpiredDate;
     @Enumerated(EnumType.STRING)
     private ScheduleType type;
+    private String scheduleGroupId;
 
     protected ScheduleEntity() {
     }
@@ -38,7 +39,8 @@ public class ScheduleEntity extends BaseTimeEntity {
             final boolean isAllDay,
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
-            final ScheduleType type
+            final ScheduleType type,
+            final String scheduleGroupId
     ) {
         this.memberId = memberId;
         this.description = description;
@@ -48,6 +50,7 @@ public class ScheduleEntity extends BaseTimeEntity {
         this.repeatOption = repeatOption;
         this.repeatExpiredDate = repeatExpiredDate;
         this.type = type;
+        this.scheduleGroupId = scheduleGroupId;
     }
 
     public static ScheduleEntity of(final Schedule schedule) {
@@ -59,7 +62,8 @@ public class ScheduleEntity extends BaseTimeEntity {
                 schedule.isAllDay(),
                 schedule.getRepeatOption(),
                 schedule.getRepeatExpiredDate(),
-                schedule.getType()
+                schedule.getType(),
+                schedule.getScheduleGroupId()
         );
     }
 
@@ -97,5 +101,9 @@ public class ScheduleEntity extends BaseTimeEntity {
 
     public ScheduleType getType() {
         return type;
+    }
+
+    public String getScheduleGroupId() {
+        return scheduleGroupId;
     }
 }
