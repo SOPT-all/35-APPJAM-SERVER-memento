@@ -1,7 +1,9 @@
 package com.official.memento.auth.service;
 
+import com.official.memento.auth.domain.AccessToken;
 import com.official.memento.auth.domain.AuthProvider;
 import com.official.memento.auth.domain.AuthorizationMember;
+import com.official.memento.auth.domain.RefreshToken;
 import com.official.memento.auth.domain.port.AuthClientOutputPort;
 import com.official.memento.auth.domain.port.AuthRepository;
 import com.official.memento.auth.service.command.AuthCommand;
@@ -48,8 +50,8 @@ public class AuthService implements AuthUseCase {
             member = AuthorizationMember.of(userId, provider, member.getRefreshToken(), false); // isNewUser = false
         }
 
-        final String accessToken = jwtUtil.generateAccessToken(userId, email);
-        final String refreshToken = jwtUtil.generateRefreshToken(userId);
+        final AccessToken accessToken = jwtUtil.generateAccessToken(userId, email);
+        final RefreshToken refreshToken = jwtUtil.generateRefreshToken(userId);
 
         member = AuthorizationMember.of(userId, provider, refreshToken, isNewUser);
 

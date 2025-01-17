@@ -1,13 +1,13 @@
 package com.official.memento.auth.domain;
 
 public class AccessToken {
-    private String accessToken;
+    private String token;
 
-    public AccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public AccessToken(String token) {
+        this.token = token;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getToken() {
+        return token;
     }
 }

@@ -3,14 +3,14 @@ package com.official.memento.auth.domain;
 public class AuthorizationMember {
     private final String platformId;
     private final AuthProvider provider;
-    private final String refreshToken;
+    private final RefreshToken refreshToken;
     private final boolean isNewUser;
 
-    public static AuthorizationMember of(final String platformId, final AuthProvider provider, final String refreshToken, final boolean isNewUser) {
+    public static AuthorizationMember of(final String platformId, final AuthProvider provider, final RefreshToken refreshToken, final boolean isNewUser) {
         return new AuthorizationMember(platformId, provider, refreshToken, isNewUser);
     }
 
-    private AuthorizationMember(final String platformId, final AuthProvider provider, final String refreshToken, final boolean isNewUser) {
+    private AuthorizationMember(final String platformId, final AuthProvider provider, final RefreshToken refreshToken, final boolean isNewUser) {
         this.platformId = platformId;
         this.provider = provider;
         this.refreshToken = refreshToken;
@@ -25,7 +25,7 @@ public class AuthorizationMember {
         return provider;
     }
 
-    public String getRefreshToken() {
+    public RefreshToken getRefreshToken() {
         return refreshToken;
     }
 

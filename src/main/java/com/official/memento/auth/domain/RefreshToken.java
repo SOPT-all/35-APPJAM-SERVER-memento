@@ -1,13 +1,13 @@
 package com.official.memento.auth.domain;
 
 public class RefreshToken {
-    private final String refreshToken;
+    private final String token;
 
-    public RefreshToken(final String refreshToken) {
-        this.refreshToken = refreshToken;
+    public RefreshToken(final String token) {
+        this.token = token;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
+    public String getToken() {
+        return token;
     }
 }
