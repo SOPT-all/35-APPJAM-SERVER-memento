@@ -18,7 +18,6 @@ public record ScheduleUpdateRequest(
         boolean isAllDay,
         @Schema(description = "태그 아이디")
         Long tagId
-
 ) {
     public ScheduleUpdateRequest of(
             final String description,
