@@ -2,6 +2,9 @@ package com.official.memento.global.resolver;
 
 import com.official.memento.global.annotation.AuthorizationUser;
 import com.official.memento.global.annotation.Authorization;
+import com.official.memento.auth.infrastructure.jwt.JwtUtil;
+import com.official.memento.global.exception.ErrorCode;
+import com.official.memento.global.exception.MementoException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +20,12 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
     private static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
     private static final String EMPTY = "";
 
+    private final JwtUtil jwtUtil;
+
+    public AuthArgumentResolver(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(Authorization.class);
@@ -30,17 +39,25 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String authorizationHeaderValue = request.getHeader(HttpHeaders.AUTHORIZATION);
         String token = parseToken(authorizationHeaderValue);
-        // TODO : Token 검증 로직 추가
-        return new AuthorizationUser(validateToken(token));
+        // Token 검증 로직
+        Long memberId = validateToken(token); // 토큰 검증 후 사용자 ID 추출
+        return new AuthorizationUser(memberId); // 주입될 객체 생성
     }
 
     private Long validateToken(String token) {
-        return 1L;
-    } //1L이 아니라 Member id를 던지도록 바꿔야 함
+
+        if (jwtUtil.validateToken(token)) {
+            return Long.parseLong(jwtUtil.getUserIdFromToken(token));
+        } else {
+            throw new MementoException(ErrorCode.INVALID_ACCESS_TOKEN);
+        }
+    }
+
 
     private String parseToken(String token) {
-        // TODO : null check and throw AuthException
-        assert token != null;
+        if (token == null || !token.startsWith(AUTHORIZATION_HEADER_PREFIX)) {
+            throw new MementoException(ErrorCode.INVALID_ACCESS_TOKEN);
+        }
         return token.replace(AUTHORIZATION_HEADER_PREFIX, EMPTY);
     }
 }
