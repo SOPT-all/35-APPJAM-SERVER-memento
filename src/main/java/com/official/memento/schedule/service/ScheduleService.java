@@ -7,6 +7,8 @@ import com.official.memento.schedule.domain.ScheduleTag;
 import com.official.memento.schedule.domain.ScheduleTagRepository;
 import com.official.memento.schedule.service.command.RepeatScheduleCreateCommand;
 import com.official.memento.schedule.service.command.ScheduleCreateCommand;
+import com.official.memento.schedule.service.command.ScheduleDeleteAllCommand;
+import com.official.memento.schedule.service.command.ScheduleDeleteCommand;
 import com.official.memento.tag.domain.TagRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,7 @@ import java.util.UUID;
 import static com.official.memento.schedule.domain.enums.ScheduleType.NORMAL;
 
 @Service
-public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCreateUseCase {
+public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCreateUseCase, ScheduleDeleteUseCase, ScheduleDeleteAllUseCase {
 
     private final ScheduleTagRepository scheduleTagRepository;
     private final ScheduleRepository scheduleRepository;
@@ -65,6 +67,24 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
         //순서관련 로직 추가
     }
 
+    @Override
+    public void delete(final ScheduleDeleteCommand scheduleDeleteCommand) {
+        Schedule schedule = scheduleRepository.findById(scheduleDeleteCommand.scheduleId());
+        if (schedule.getMemberId() != scheduleDeleteCommand.memberId()) {
+            throw new IllegalArgumentException("해당 스케줄을 소유하지 않음");//커스텀으로 바꿔야함
+        }
+        scheduleRepository.deleteById(schedule.getId());
+    }
+
+    @Override
+    public void deleteAll(final ScheduleDeleteAllCommand scheduleDeleteAllCommand) {
+        Schedule schedule = scheduleRepository.findById(scheduleDeleteAllCommand.scheduleId());
+        if (schedule.getMemberId() != scheduleDeleteAllCommand.memberId()) {
+            throw new IllegalArgumentException("해당 스케줄을 소유하지 않음");//커스텀으로 바꿔야함
+        }
+        scheduleRepository.deleteByGroupId(scheduleDeleteAllCommand.scheduleGroupId());
+    }
+
     private Schedule createSchedule(final ScheduleCreateCommand command, final String scheduleGroupId) {
         return scheduleRepository.save(Schedule.of(
                 command.memberId(),
@@ -95,7 +115,7 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
                     currentStartDate,
                     currentEndDate,
                     command.isAllDay(),
-                   command.repeatOption(),
+                    command.repeatOption(),
                     repeatExpiredDate,
                     NORMAL,
                     scheduleGroupId
