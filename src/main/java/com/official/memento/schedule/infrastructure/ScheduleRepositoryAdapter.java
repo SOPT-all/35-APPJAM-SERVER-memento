@@ -8,6 +8,9 @@ import com.official.memento.schedule.domain.ScheduleRepository;
 import com.official.memento.schedule.infrastructure.persistence.ScheduleEntity;
 import com.official.memento.schedule.infrastructure.persistence.ScheduleEntityJpaRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Adapter
 public class ScheduleRepositoryAdapter implements ScheduleRepository {
 
@@ -55,12 +58,46 @@ public class ScheduleRepositoryAdapter implements ScheduleRepository {
     }
 
     @Override
+    public List<Schedule> findAllByScheduleGroupId(final String scheduleGroupId) {
+        List<ScheduleEntity> scheduleEntities = scheduleEntityJpaRepository.findAllByScheduleGroupId(scheduleGroupId);
+        return scheduleEntities.stream().map(scheduleEntity -> Schedule.withId(
+                scheduleEntity.getId(),
+                scheduleEntity.getMemberId(),
+                scheduleEntity.getDescription(),
+                scheduleEntity.getStartDate(),
+                scheduleEntity.getEndDate(),
+                scheduleEntity.isAllDay(),
+                scheduleEntity.getRepeatOption(),
+                scheduleEntity.getRepeatExpiredDate(),
+                scheduleEntity.getType(),
+                scheduleEntity.getScheduleGroupId()
+        )).toList();
+    }
+
+    @Override
+    public List<Schedule> findAllByScheduleGroupIdAndStartDateGreaterThanEqual(String scheduleGroupId, LocalDateTime startDate) {
+        List<ScheduleEntity> scheduleEntities = scheduleEntityJpaRepository.findAllByScheduleGroupIdAndStartDateGreaterThanEqual(scheduleGroupId, startDate);
+        return scheduleEntities.stream().map(scheduleEntity -> Schedule.withId(
+                scheduleEntity.getId(),
+                scheduleEntity.getMemberId(),
+                scheduleEntity.getDescription(),
+                scheduleEntity.getStartDate(),
+                scheduleEntity.getEndDate(),
+                scheduleEntity.isAllDay(),
+                scheduleEntity.getRepeatOption(),
+                scheduleEntity.getRepeatExpiredDate(),
+                scheduleEntity.getType(),
+                scheduleEntity.getScheduleGroupId()
+        )).toList();
+    }
+
+    @Override
     public void deleteById(final long scheduleId) {
         scheduleEntityJpaRepository.deleteById(scheduleId);
     }
 
     @Override
-    public void deleteAllByGroupId(final String groupId) {
-        scheduleEntityJpaRepository.deleteAllByScheduleGroupId(groupId);
+    public void deleteAll(final List<Schedule> schedules) {
+        scheduleEntityJpaRepository.deleteAll(schedules);
     }
 }
