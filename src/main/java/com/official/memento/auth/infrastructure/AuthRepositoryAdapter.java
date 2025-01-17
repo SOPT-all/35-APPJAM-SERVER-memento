@@ -2,6 +2,7 @@ package com.official.memento.auth.infrastructure;
 
 import com.official.memento.auth.domain.AuthorizationMember;
 import com.official.memento.auth.domain.AuthProvider;
+import com.official.memento.auth.domain.RefreshToken;
 import com.official.memento.auth.domain.port.AuthRepository;
 import com.official.memento.global.exception.ErrorCode;
 import com.official.memento.global.exception.MementoException;
@@ -25,7 +26,7 @@ public class AuthRepositoryAdapter implements AuthRepository {
                 null, // ID는 JPA에서 자동 생성
                 member.getProvider(),
                 member.getPlatformId(),
-                member.getRefreshToken(),
+                member.getRefreshToken().getToken(),
                 null // memberId는 사용하지 않으므로 null
         );
         final MemberAuthEntity savedEntity = memberAuthJpaRepository.save(entity);
@@ -34,7 +35,7 @@ public class AuthRepositoryAdapter implements AuthRepository {
         return AuthorizationMember.of(
                 savedEntity.getPlatformId(),
                 savedEntity.getProvider(),
-                savedEntity.getRefreshToken(),
+                new RefreshToken(savedEntity.getRefreshToken()),
                 true // 새 사용자 등록이므로 isNewUser = true
         );
     }
@@ -45,7 +46,7 @@ public class AuthRepositoryAdapter implements AuthRepository {
                 .map(entity -> AuthorizationMember.of(
                         entity.getPlatformId(),
                         entity.getProvider(),
-                        entity.getRefreshToken(),
+                        new RefreshToken(entity.getRefreshToken()),
                         false // 기존 사용자는 isNewUser = false
                 ))
                 .orElseThrow(() -> new MementoException(ErrorCode.NOT_FOUND_ENTITY));
@@ -57,7 +58,7 @@ public class AuthRepositoryAdapter implements AuthRepository {
                 .map(entity -> AuthorizationMember.of(
                         entity.getPlatformId(),
                         entity.getProvider(),
-                        entity.getRefreshToken(),
+                        new RefreshToken(entity.getRefreshToken()),
                         false // 기존 사용자는 isNewUser = false
                 ))
                 .orElseThrow(() -> new MementoException(ErrorCode.NOT_FOUND_ENTITY));

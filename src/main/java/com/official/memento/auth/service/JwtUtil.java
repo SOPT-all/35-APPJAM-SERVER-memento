@@ -1,5 +1,7 @@
-package com.official.memento.auth.infrastructure.jwt;
+package com.official.memento.auth.service;
 
+import com.official.memento.auth.domain.AccessToken;
+import com.official.memento.auth.domain.RefreshToken;
 import com.official.memento.global.exception.ErrorCode;
 import com.official.memento.global.exception.MementoException;
 import io.jsonwebtoken.Jwts;
@@ -21,23 +23,23 @@ public class JwtUtil {
         this.refreshTokenExpiration = refreshTokenExpiration;
     }
 
-    public String generateAccessToken(final String userId, final String email) {
-        return Jwts.builder()
+    public AccessToken generateAccessToken(final String userId, final String email) {
+        return new AccessToken(Jwts.builder()
                 .setSubject(userId)
                 .claim("email", email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
-                .compact();
+                .compact());
     }
 
-    public String generateRefreshToken(final String userId) {
-        return Jwts.builder()
-                .setSubject(userId)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
-                .signWith(secretKey, SignatureAlgorithm.HS256)
-                .compact();
+    public RefreshToken generateRefreshToken(final String userId) {
+        return new RefreshToken(Jwts.builder()
+                        .setSubject(userId)
+                        .setIssuedAt(new Date())
+                        .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                        .signWith(secretKey, SignatureAlgorithm.HS256)
+                        .compact());
     }
 
     public boolean validateToken(final String token) {
