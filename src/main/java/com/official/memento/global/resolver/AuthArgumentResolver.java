@@ -2,7 +2,7 @@ package com.official.memento.global.resolver;
 
 import com.official.memento.global.annotation.AuthorizationUser;
 import com.official.memento.global.annotation.Authorization;
-import com.official.memento.auth.infrastructure.jwt.JwtUtil;
+import com.official.memento.auth.service.JwtUtil;
 import com.official.memento.global.exception.ErrorCode;
 import com.official.memento.global.exception.MementoException;
 import jakarta.servlet.http.HttpServletRequest;

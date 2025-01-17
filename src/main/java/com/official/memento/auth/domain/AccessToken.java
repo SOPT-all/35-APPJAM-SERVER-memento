@@ -1,9 +1,9 @@
 package com.official.memento.auth.domain;
 
-public class RefreshToken {
-    private final String token;
+public class AccessToken {
+    private String token;
 
-    public RefreshToken(final String token) {
+    public AccessToken(String token) {
         this.token = token;
     }
 

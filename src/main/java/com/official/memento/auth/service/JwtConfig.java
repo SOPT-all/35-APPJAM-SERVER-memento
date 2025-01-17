@@ -1,4 +1,4 @@
-package com.official.memento.auth.infrastructure.jwt;
+package com.official.memento.auth.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class JwtConfig {
 
     @Value("${JWT.SECRET}")
-    private String secret;
+    private String secretKey;
 
     @Value("${JWT.ACCESS_TOKEN_EXPIRATION}")
     private long accessTokenExpiration;
@@ -18,7 +18,7 @@ public class JwtConfig {
 
     @Bean
     public JwtUtil jwtUtil() {
-        final JwtUtil jwtUtil = new JwtUtil(secret, accessTokenExpiration, refreshTokenExpiration);
+        final JwtUtil jwtUtil = new JwtUtil(secretKey, accessTokenExpiration, refreshTokenExpiration);
         return jwtUtil;
     }
 }
