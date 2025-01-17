@@ -1,5 +1,7 @@
 package com.official.memento.schedule.infrastructure;
 
+import com.official.memento.global.exception.EntityNotFoundException;
+import com.official.memento.global.exception.ErrorCode;
 import com.official.memento.global.stereotype.Adapter;
 import com.official.memento.schedule.domain.ScheduleTag;
 import com.official.memento.schedule.domain.ScheduleTagRepository;
@@ -24,4 +26,16 @@ public class ScheduleTagRepositoryAdapter implements ScheduleTagRepository {
                 scheduleTag.getScheduleId()
         );
     }
+
+    @Override
+    public ScheduleTag findByScheduleId(final long scheduleId) {
+        return scheduleTagEntityJpaRepository.findByScheduleId(scheduleId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY));
+    }
+
+    @Override
+    public void deleteByScheduleId(long scheduleId) {
+        scheduleTagEntityJpaRepository.deleteByScheduleId(scheduleId);
+    }
+
 }
