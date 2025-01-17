@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 @Table(name = "member")
 public class MemberEntity extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 }

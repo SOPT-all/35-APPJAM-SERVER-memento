@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tags")
-public class TagApiController {
+public class TagApiController implements TagApiDocs {
 
     private final TagCreateUseCase tagCreateUseCase;
     private final TagGetUseCase tagGetUseCase;
@@ -28,8 +28,9 @@ public class TagApiController {
         this.tagGetUseCase = tagGetUseCase;
     }
 
+    @Override
     @PostMapping
-    public ResponseEntity<SuccessResponse<?>> createTag(
+    public ResponseEntity<SuccessResponse<TagCreateResponse>> createTag(
             @Authorization final AuthorizationUser authorizationUser,
             @RequestBody final TagCreateRequest request
     ) {
@@ -47,8 +48,9 @@ public class TagApiController {
         );
     }
 
+    @Override
     @GetMapping
-    public ResponseEntity<SuccessResponse<?>> getTags(
+    public ResponseEntity<SuccessResponse<List<TagGetResponse>>> getTags(
             @Authorization final AuthorizationUser authorizationUser
     ) {
         final List<Tag> tags = tagGetUseCase.getTags(authorizationUser.memberId());

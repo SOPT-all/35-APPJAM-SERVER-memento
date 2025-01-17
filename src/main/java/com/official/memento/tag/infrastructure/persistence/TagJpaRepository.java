@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TagJpaRepository extends JpaRepository<TagEntity, Long> {
     @Query(
-            value = "SELECT * FROM tag WHERE member_id = :memberId",
+            value = "SELECT * FROM tags WHERE member_id = :memberId",
             nativeQuery = true
     )
     List<TagEntity> findAllByMemberId(Long memberId);
