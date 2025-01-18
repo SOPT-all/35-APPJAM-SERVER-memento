@@ -33,6 +33,9 @@ public class ToDoEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ToDoType type;
 
+    protected ToDoEntity(){
+    }
+
     private ToDoEntity(
             final long memberId,
             final String groupId,
