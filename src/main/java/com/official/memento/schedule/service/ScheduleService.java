@@ -82,19 +82,17 @@ public class ScheduleService implements
         //Todo 순서 관련 삭제
     }
 
-
     @Override
     @Transactional
     public void deleteGroup(final ScheduleDeleteGroupCommand command) {
         Schedule schedule = scheduleRepository.findById(command.scheduleId());
         checkOwn(command.memberId(), schedule);
         belongsToGroup(command.scheduleGroupId(), schedule);
-        List<Schedule> targetSchedules = scheduleRepository.findAllByScheduleGroupId(command.scheduleGroupId());
+        List<Schedule> targetSchedules = scheduleRepository.findAllByScheduleGroupIdAndStartDateGreaterThanEqual(command.scheduleGroupId(), schedule.getStartDate());
         targetSchedules.forEach(targetSchedule -> removeTagConnection(targetSchedule.getId()));
         scheduleRepository.deleteAll(targetSchedules);
         //Todo 순서 관련 삭제
     }
-
 
     @Override
     @Transactional
@@ -107,8 +105,8 @@ public class ScheduleService implements
                 command.endDate(),
                 command.isAllDay()
         );
-        ScheduleTag scheduleTag = scheduleTagRepository.findByScheduleId(schedule.getId());
-        scheduleTag.updateTag(command.tagId());
+        scheduleRepository.update(schedule);
+        updateOrDeleteTag(schedule, command.tagId());
     }
 
     @Override
@@ -201,6 +199,32 @@ public class ScheduleService implements
         return schedules;
     }
 
+    private void updateOrDeleteTag(final Schedule schedule, final Long tagId) {
+        ScheduleTag scheduleTag = scheduleTagRepository.findByScheduleId(schedule.getId());
+        if (tagId == null) {
+            scheduleTagRepository.deleteByScheduleId(schedule.getId());
+        } else if (scheduleTag == null) {
+            scheduleTag = ScheduleTag.of(tagId, schedule.getId());
+            scheduleTagRepository.save(scheduleTag);
+        } else if (scheduleTag.getTagId() != tagId) {
+            scheduleTag.updateTag(tagId, scheduleTag.getUpdatedAt());
+            scheduleTagRepository.update(scheduleTag);
+        } else {
+            throw new IllegalArgumentException("예상치 못한 오류 발생"); //Todo 커스텀 오류 변경 예정
+        }
+    }
+
+    private void saveOrUpdateTag(ScheduleTag scheduleTag, final long scheduleId, final long tagId) {
+        if (scheduleTag == null) {
+            scheduleTag = ScheduleTag.of(tagId, scheduleId);
+            scheduleTagRepository.save(scheduleTag);
+        } else {
+            scheduleTag.updateTag(tagId, scheduleTag.getUpdatedAt());
+            scheduleTagRepository.save(scheduleTag);
+        }
+
+    }
+
     private void connectTags(final Long tagId, final List<Schedule> schedules) {
         schedules.forEach(schedule -> connectTag(tagId, schedule));
     }
@@ -215,13 +239,13 @@ public class ScheduleService implements
         scheduleTagRepository.deleteByScheduleId(scheduleId);
     }
 
-    private static void checkOwn(final long memberId, final Schedule schedule) {
+    private static void checkOwn(final long memberId, final Schedule schedule) { //Todo Schedule안으로 리팩토링
         if (schedule.getMemberId() != memberId) {
             throw new IllegalArgumentException("해당 스케줄을 소유하지 않음");//Todo 커스텀으로 바꿔야함
         }
     }
 
-    private static void belongsToGroup(String scheduleGroupId, Schedule schedule) {
+    private static void belongsToGroup(String scheduleGroupId, Schedule schedule) { //Todo 스케줄 안으로 리팩토링
         if (!schedule.getScheduleGroupId().equals(scheduleGroupId)) {
             throw new IllegalArgumentException("해당 스케줄의 그룹 아이디와 일치하지 않습니다."); //Todo 커스텀
         }
