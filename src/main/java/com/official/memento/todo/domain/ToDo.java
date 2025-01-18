@@ -1,141 +1,152 @@
 package com.official.memento.todo.domain;
 
 import com.official.memento.global.entity.enums.RepeatOption;
+import com.official.memento.todo.domain.enums.PriorityType;
+import com.official.memento.todo.domain.enums.ToDoType;
 
 import java.time.LocalDate;
 
 public class ToDo {
     private Long id;
     private long memberId;
-    private String toDoGroupId;
+    private String groupId;
     private LocalDate date;
     private String description;
     private LocalDate deadline;
     private boolean isCompleted;
     private RepeatOption repeatOption;
     private LocalDate repeatExpiredDate;
-    private double priorityValue;
+    private Double priorityUrgency;
+    private Double priorityImportance;
+    private Double priorityValue;
     private String priorityType;
-    private String toDoType;
-    private int order;
+    private ToDoType type;
 
     private ToDo(
             final Long id,
             final long memberId,
-            final String toDoGroupId,
+            final String groupId,
             final LocalDate date,
             final String description,
             final LocalDate deadline,
             final boolean isCompleted,
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
-            final double priorityValue,
+            final Double priorityUrgency,
+            final Double priorityImportance,
+            final Double priorityValue,
             final String priorityType,
-            final String toDoType,
-            final int order
+            final ToDoType type
     ) {
         this.id = id;
         this.memberId = memberId;
-        this.toDoGroupId = toDoGroupId;
+        this.groupId = groupId;
         this.date = date;
         this.description = description;
         this.deadline = deadline;
         this.isCompleted = isCompleted;
         this.repeatOption = repeatOption;
         this.repeatExpiredDate = repeatExpiredDate;
+        this.priorityUrgency = priorityUrgency;
+        this.priorityImportance = priorityImportance;
         this.priorityValue = priorityValue;
         this.priorityType = priorityType;
-        this.toDoType = toDoType;
-        this.order = order;
+        this.type = type;
     }
 
     private ToDo(
             final long memberId,
-            final String toDoGroupId,
+            final String groupId,
             final LocalDate date,
             final String description,
             final LocalDate deadline,
             final boolean isCompleted,
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
-            final double priorityValue,
+            final Double priorityUrgency,
+            final Double priorityImportance,
+            final Double priorityValue,
             final String priorityType,
-            final String toDoType,
-            final int order
+            final ToDoType type
     ) {
         this.memberId = memberId;
-        this.toDoGroupId = toDoGroupId;
+        this.groupId = groupId;
         this.date = date;
         this.description = description;
         this.deadline = deadline;
         this.isCompleted = isCompleted;
         this.repeatOption = repeatOption;
         this.repeatExpiredDate = repeatExpiredDate;
+        this.priorityUrgency = priorityUrgency;
+        this.priorityImportance = priorityImportance;
         this.priorityValue = priorityValue;
         this.priorityType = priorityType;
-        this.toDoType = toDoType;
-        this.order = order;
+        this.type = type;
     }
 
     public static ToDo withId(
             final Long id,
             final long memberId,
-            final String toDoGroupId,
+            final String groupId,
             final LocalDate date,
             final String description,
             final LocalDate deadline,
             final boolean isCompleted,
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
-            final double priorityValue,
+            final Double priorityUrgency,
+            final Double priorityImportance,
+            final Double priorityValue,
             final String priorityType,
-            final String toDoType,
-            final int order
+            final ToDoType type
     ) {
         return new ToDo(
                 id,
                 memberId,
-                toDoGroupId,
+                groupId,
                 date,
                 description,
                 deadline,
                 isCompleted,
                 repeatOption,
                 repeatExpiredDate,
+                priorityUrgency,
+                priorityImportance,
                 priorityValue,
                 priorityType,
-                toDoType,
-                order
+                type
         );
     }
 
     public static ToDo of(
             final long memberId,
-            final String toDoGroupId,
+            final String groupId,
             final LocalDate date,
             final String description,
             final LocalDate deadline,
             final boolean isCompleted,
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
-            final double priorityValue,
+            final Double priorityUrgency,
+            final Double priorityImportance,
+            final Double priorityValue,
             final String priorityType,
-            final String toDoType,
-            final int order
+            final ToDoType type
     ) {
         return new ToDo(
                 memberId,
-                toDoGroupId,
+                groupId,
                 date,
                 description,
                 deadline,
                 isCompleted,
                 repeatOption,
                 repeatExpiredDate,
+                priorityUrgency,
+                priorityImportance,
                 priorityValue,
                 priorityType,
-                toDoType,
-                order
+                type
         );
     }
 
@@ -147,8 +158,8 @@ public class ToDo {
         return memberId;
     }
 
-    public String getToDoGroupId() {
-        return toDoGroupId;
+    public String getGroupId() {
+        return groupId;
     }
 
     public LocalDate getDate() {
@@ -175,7 +186,15 @@ public class ToDo {
         return repeatExpiredDate;
     }
 
-    public double getPriorityValue() {
+    public Double getPriorityUrgency() {
+        return priorityUrgency;
+    }
+
+    public Double getPriorityImportance() {
+        return priorityImportance;
+    }
+
+    public Double getPriorityValue() {
         return priorityValue;
     }
 
@@ -183,11 +202,7 @@ public class ToDo {
         return priorityType;
     }
 
-    public String getToDoType() {
-        return toDoType;
-    }
-
-    public int getOrder() {
-        return order;
+    public ToDoType getType() {
+        return type;
     }
 }
