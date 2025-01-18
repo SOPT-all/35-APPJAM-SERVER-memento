@@ -2,9 +2,10 @@ package com.official.memento.auth.domain.port;
 
 import com.official.memento.auth.domain.AuthProvider;
 import com.official.memento.auth.domain.AuthorizationMember;
+import com.official.memento.member.infrastructure.persistence.MemberAuthEntity;
+import java.util.Optional;
 
 public interface AuthRepository {
-    AuthorizationMember save(AuthorizationMember member);
-    AuthorizationMember findById(String id);
-    AuthorizationMember findByPlatformIdAndProvider(String platformId, AuthProvider provider);
+    MemberAuthEntity save(MemberAuthEntity authEntity);
+    Optional<MemberAuthEntity> findByPlatformIdAndProvider(String platformId, AuthProvider provider);
 }

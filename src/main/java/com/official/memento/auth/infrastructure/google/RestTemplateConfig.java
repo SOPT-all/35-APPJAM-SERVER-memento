@@ -1,4 +1,4 @@
-package com.official.memento.auth.infrastructure;
+package com.official.memento.auth.infrastructure.google;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
