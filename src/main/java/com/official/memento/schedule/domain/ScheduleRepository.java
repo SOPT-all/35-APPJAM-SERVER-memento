@@ -6,6 +6,8 @@ import java.util.List;
 public interface ScheduleRepository {
     Schedule save(final Schedule schedule);
 
+    Schedule update(final Schedule schedule);
+
     Schedule findById(final long scheduleId);
 
     List<Schedule> findAllByScheduleGroupId(final String scheduleGroupId);

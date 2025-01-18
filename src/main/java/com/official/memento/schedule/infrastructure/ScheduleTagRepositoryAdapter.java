@@ -1,12 +1,12 @@
 package com.official.memento.schedule.infrastructure;
 
-import com.official.memento.global.exception.EntityNotFoundException;
-import com.official.memento.global.exception.ErrorCode;
 import com.official.memento.global.stereotype.Adapter;
 import com.official.memento.schedule.domain.ScheduleTag;
 import com.official.memento.schedule.domain.ScheduleTagRepository;
 import com.official.memento.schedule.infrastructure.persistence.ScheduleTagEntity;
 import com.official.memento.schedule.infrastructure.persistence.ScheduleTagEntityJpaRepository;
+
+import java.util.Optional;
 
 @Adapter
 public class ScheduleTagRepositoryAdapter implements ScheduleTagRepository {
@@ -18,19 +18,39 @@ public class ScheduleTagRepositoryAdapter implements ScheduleTagRepository {
     }
 
     @Override
-    public ScheduleTag save(ScheduleTag scheduleTag) {
+    public ScheduleTag save(final ScheduleTag scheduleTag) {
         ScheduleTagEntity scheduleTagEntity = scheduleTagEntityJpaRepository.save(ScheduleTagEntity.of(scheduleTag));
         return ScheduleTag.withId(
                 scheduleTagEntity.getId(),
                 scheduleTag.getTagId(),
-                scheduleTag.getScheduleId()
+                scheduleTag.getScheduleId(),
+                scheduleTag.getCreatedAt(),
+                scheduleTag.getUpdatedAt()
+        );
+    }
+
+    @Override
+    public ScheduleTag update(final ScheduleTag scheduleTag) {
+        ScheduleTagEntity scheduleTagEntity = scheduleTagEntityJpaRepository.save(ScheduleTagEntity.withId(scheduleTag));
+        return ScheduleTag.withId(
+                scheduleTagEntity.getId(),
+                scheduleTag.getTagId(),
+                scheduleTag.getScheduleId(),
+                scheduleTag.getCreatedAt(),
+                scheduleTag.getUpdatedAt()
         );
     }
 
     @Override
     public ScheduleTag findByScheduleId(final long scheduleId) {
-        return scheduleTagEntityJpaRepository.findByScheduleId(scheduleId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY));
+        Optional<ScheduleTagEntity> scheduleTagEntity = scheduleTagEntityJpaRepository.findByScheduleId(scheduleId);
+        return scheduleTagEntity.map(scheduleTag -> ScheduleTag.withId(
+                scheduleTag.getId(),
+                scheduleTag.getTagId(),
+                scheduleTag.getScheduleId(),
+                scheduleTag.getCreatedAt(),
+                scheduleTag.getUpdatedAt()
+        )).orElse(null);
     }
 
     @Override

@@ -7,6 +7,5 @@ import java.util.Optional;
 
 public interface ScheduleTagEntityJpaRepository extends JpaRepository<ScheduleTagEntity, Long> {
     void deleteByScheduleId(final long scheduleId);
-
-    Optional<ScheduleTag> findByScheduleId(final long scheduleId);
+    Optional<ScheduleTagEntity> findByScheduleId(final long scheduleId);
 }
