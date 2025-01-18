@@ -31,7 +31,7 @@ public class MemberRepositoryAdapter implements MemberRepository {
 
     @Override
     public Optional<MemberPersonalInfoEntity> findPersonalInfoByMemberId(Long memberId) {
-        return Optional.ofNullable(personalInfoRepository.findByMemberId(memberId));
+        return personalInfoRepository.findByMemberId(memberId);
     }
 
 

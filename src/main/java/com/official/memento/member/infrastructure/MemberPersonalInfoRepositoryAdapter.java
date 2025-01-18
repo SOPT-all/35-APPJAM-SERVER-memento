@@ -27,7 +27,9 @@ public class MemberPersonalInfoRepositoryAdapter implements MemberPersonalInfoRe
 
     @Override
     public Optional<MemberPersonalInfo> findByMemberId(final Long memberId) {
-        MemberPersonalInfoEntity entity = memberPersonalInfoEntityJpaRepository.findByMemberId(memberId);
+        MemberPersonalInfoEntity entity = memberPersonalInfoEntityJpaRepository
+                .findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY));
         return Optional.of(MemberPersonalInfoMapper.toDomain(entity));
     }
 
@@ -43,12 +45,10 @@ public class MemberPersonalInfoRepositoryAdapter implements MemberPersonalInfoRe
 
     @Override
     public MemberPersonalInfo update(final MemberPersonalInfo memberPersonalInfo) {
-        MemberPersonalInfoEntity existingEntity = memberPersonalInfoEntityJpaRepository.findByMemberId(
-                memberPersonalInfo.getMemberId()
-        );
-        if (existingEntity == null) {
-            throw new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY);
-        }
+        MemberPersonalInfoEntity existingEntity = memberPersonalInfoEntityJpaRepository
+                .findByMemberId(memberPersonalInfo.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY));
+
         existingEntity.updateFields(
                 memberPersonalInfo.getWakeUpTime(),
                 memberPersonalInfo.getWindDownTime(),
