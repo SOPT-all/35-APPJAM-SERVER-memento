@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/members/personal-info")
-public class MemberPersonalInfoApiController {
+public class MemberPersonalInfoApiController implements MemberPersonalInfoApiDocs {
     private final MemberPersonalInfoUpdateUseCase memberPersonalInfoUseCase;
 
     public MemberPersonalInfoApiController(MemberPersonalInfoUpdateUseCase memberPersonalInfoUseCase) {
@@ -24,6 +24,7 @@ public class MemberPersonalInfoApiController {
     }
 
     @PatchMapping
+    @Override
     public ResponseEntity<SuccessResponse<?>> updatePersonalInfo(
             @Authorization final AuthorizationUser authorizationUser,
             @RequestBody final MemberPersonalInfoRequest request)
