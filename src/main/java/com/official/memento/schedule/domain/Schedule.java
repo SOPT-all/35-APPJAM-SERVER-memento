@@ -1,12 +1,13 @@
 package com.official.memento.schedule.domain;
 
+import com.official.memento.global.entity.BaseTimeEntity;
 import com.official.memento.global.entity.enums.RepeatOption;
 import com.official.memento.schedule.domain.enums.ScheduleType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Schedule {
+public class Schedule extends BaseTimeEntity {
     private Long id;
     private long memberId;
     private String description;
@@ -18,6 +19,7 @@ public class Schedule {
     private ScheduleType type;
     private String scheduleGroupId;
 
+
     private Schedule(
             final Long id,
             final long memberId,
@@ -28,7 +30,9 @@ public class Schedule {
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
             final ScheduleType type,
-            final String scheduleGroupId
+            final String scheduleGroupId,
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt
     ) {
         this.id = id;
         this.memberId = memberId;
@@ -40,6 +44,8 @@ public class Schedule {
         this.repeatExpiredDate = repeatExpiredDate;
         this.type = type;
         this.scheduleGroupId = scheduleGroupId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     private Schedule(
@@ -74,7 +80,9 @@ public class Schedule {
             final RepeatOption repeatOption,
             final LocalDate repeatExpiredDate,
             final ScheduleType type,
-            final String scheduleGroupId
+            final String scheduleGroupId,
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt
     ) {
         return new Schedule(
                 id,
@@ -86,7 +94,9 @@ public class Schedule {
                 repeatOption,
                 repeatExpiredDate,
                 type,
-                scheduleGroupId
+                scheduleGroupId,
+                createdAt,
+                updatedAt
         );
     }
 
@@ -114,7 +124,7 @@ public class Schedule {
         );
     }
 
-    public Schedule update(
+    public void update(
             final String description,
             final LocalDateTime startDate,
             final LocalDateTime endDate,
@@ -124,7 +134,6 @@ public class Schedule {
         this.startDate = startDate;
         this.endDate = endDate;
         this.isAllDay = isAllDay;
-        return this;
     }
 
     public Long getId() {
