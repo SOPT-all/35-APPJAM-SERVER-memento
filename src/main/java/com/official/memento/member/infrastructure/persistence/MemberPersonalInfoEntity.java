@@ -120,7 +120,7 @@ public class MemberPersonalInfoEntity {
     }
 
     // 추가된 updateFields 메서드
-정    public void updatePersonalInfo(
+    public void updatePersonalInfo(
             final LocalTime wakeUpTime,
             final LocalTime windDownTime,
             final JobType job,
