@@ -8,6 +8,7 @@ import com.official.memento.todo.domain.ToDoTag;
 import com.official.memento.todo.domain.ToDoTagRepository;
 import com.official.memento.todo.domain.enums.PriorityType;
 import com.official.memento.todo.service.command.ToDoCreateCommand;
+import com.official.memento.todo.service.command.ToDoDeleteCommand;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,7 @@ import java.util.UUID;
 import static com.official.memento.todo.domain.enums.ToDoType.NORMAL;
 
 @Service
-public class ToDoService implements ToDoCreateUseCase {
+public class ToDoService implements ToDoCreateUseCase, ToDoDeleteUseCase {
 
     private final ToDoRepository toDoRepository;
     private final ToDoTagRepository toDoTagRepository;
@@ -42,6 +43,14 @@ public class ToDoService implements ToDoCreateUseCase {
         } else {
             createRepeatToDos(command, toDoGroupId);
         }
+    }
+
+    @Override
+    @Transactional
+    public void delete(final ToDoDeleteCommand toDoDeleteCommand){
+        ToDo toDo = toDoRepository.findById(toDoDeleteCommand.toDoId());
+        checkOwn(toDoDeleteCommand.memberId(),toDo);
+        toDoRepository.deleteById(toDo.getId());
     }
 
     private void createSingleToDo(final ToDoCreateCommand command, final String toDoGroupId) {
@@ -124,6 +133,12 @@ public class ToDoService implements ToDoCreateUseCase {
     private void connectTag(final Long tagId, final ToDo toDo) {
         ToDoTag toDoTag = ToDoTag.of(tagId, toDo.getId());
         toDoTagRepository.save(toDoTag);
+    }
+
+    private static void checkOwn(final long memberId, final ToDo toDo) {
+        if (toDo.getMemberId() != memberId) {
+            throw new IllegalArgumentException("해당 투두를 소유하지 않음");//커스텀으로 바꿔야함
+        }
     }
 
     private int determineOrder() {
