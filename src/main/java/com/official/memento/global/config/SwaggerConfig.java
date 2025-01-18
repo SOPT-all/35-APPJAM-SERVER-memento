@@ -11,7 +11,22 @@ import org.springframework.context.annotation.Profile;
 @Profile("!prod")
 class SwaggerConfig {
 
-    private static final String DESCRIPTION = """   
+    private static final String DESCRIPTION = """
+        요청 성공 시 기본 응답 구조
+        {
+            "message": "성공",
+            "data": "응답 데이터"
+        } or
+        
+        {
+            "message": "성공"
+        }
+        
+        요청 실패 시 기본 응답 구조
+        {
+            "errorCode": "에러 코드"
+        }
+        
         401 에러가 발생할 경우, 토큰이 만료되었거나, 잘못된 토큰일 수 있습니다. -> 토큰을 재발급 받아주세요.
         그럼에도 동작하지 않는 경우, -> 서버에게 문의해주세요.
     
