@@ -4,6 +4,8 @@ import com.official.memento.global.entity.BaseTimeEntity;
 import com.official.memento.schedule.domain.ScheduleTag;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "schedule_tag")
 public class ScheduleTagEntity extends BaseTimeEntity {
@@ -14,8 +16,15 @@ public class ScheduleTagEntity extends BaseTimeEntity {
     private long tagId;
     private long scheduleId;
 
-    private ScheduleTagEntity(final Long id, final long tagId, final long scheduleId) {
+    private ScheduleTagEntity(final Long id, final long tagId, final long scheduleId, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
+        this.tagId = tagId;
+        this.scheduleId = scheduleId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    private ScheduleTagEntity(final long tagId, final long scheduleId) {
         this.tagId = tagId;
         this.scheduleId = scheduleId;
     }
@@ -23,11 +32,20 @@ public class ScheduleTagEntity extends BaseTimeEntity {
     protected ScheduleTagEntity() {
     }
 
-    public static ScheduleTagEntity of(final ScheduleTag scheduleTag){
+    public static ScheduleTagEntity of(final ScheduleTag scheduleTag) {
+        return new ScheduleTagEntity(
+                scheduleTag.getTagId(),
+                scheduleTag.getScheduleId()
+        );
+    }
+
+    public static ScheduleTagEntity withId(final ScheduleTag scheduleTag) {
         return new ScheduleTagEntity(
                 scheduleTag.getId(),
                 scheduleTag.getTagId(),
-                scheduleTag.getScheduleId()
+                scheduleTag.getScheduleId(),
+                scheduleTag.getCreatedAt(),
+                scheduleTag.getUpdatedAt()
         );
     }
 

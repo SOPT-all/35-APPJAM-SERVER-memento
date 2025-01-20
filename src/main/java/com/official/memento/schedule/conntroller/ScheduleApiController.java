@@ -1,18 +1,12 @@
 package com.official.memento.schedule.conntroller;
 
-import com.official.memento.global.annotation.Authorization;
-import com.official.memento.global.annotation.AuthorizationUser;
 import com.official.memento.global.dto.SuccessResponse;
 import com.official.memento.schedule.conntroller.dto.request.RepeatScheduleCreateRequest;
 import com.official.memento.schedule.conntroller.dto.request.ScheduleCreateRequest;
-import com.official.memento.schedule.service.RepeatScheduleCreateUseCase;
-import com.official.memento.schedule.service.ScheduleCreateUseCase;
-import com.official.memento.schedule.service.ScheduleDeleteAllUseCase;
-import com.official.memento.schedule.service.ScheduleDeleteUseCase;
-import com.official.memento.schedule.service.command.RepeatScheduleCreateCommand;
-import com.official.memento.schedule.service.command.ScheduleCreateCommand;
-import com.official.memento.schedule.service.command.ScheduleDeleteAllCommand;
-import com.official.memento.schedule.service.command.ScheduleDeleteCommand;
+import com.official.memento.schedule.conntroller.dto.request.ScheduleUpdateGroupRequest;
+import com.official.memento.schedule.conntroller.dto.request.ScheduleUpdateRequest;
+import com.official.memento.schedule.service.*;
+import com.official.memento.schedule.service.command.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,18 +18,25 @@ public class ScheduleApiController {
     private final ScheduleCreateUseCase scheduleCreateUseCase;
     private final RepeatScheduleCreateUseCase repeatScheduleCreateUseCase;
     private final ScheduleDeleteUseCase scheduleDeleteUseCase;
-    private final ScheduleDeleteAllUseCase scheduleDeleteAllUseCase;
+    private final ScheduleDeleteGroupUseCase scheduleDeleteGroupUseCase;
+    private final ScheduleUpdateUseCase scheduleUpdateUseCase;
+    private final ScheduleUpdateGroupUseCase scheduleUpdateGroupUseCase;
 
     public ScheduleApiController(
             final ScheduleCreateUseCase scheduleCreateUseCase,
             final RepeatScheduleCreateUseCase repeatScheduleCreateUseCase,
             final ScheduleDeleteUseCase scheduleDeleteUseCase,
-            final ScheduleDeleteAllUseCase scheduleDeleteAllUseCase
+            final ScheduleDeleteGroupUseCase scheduleDeleteGroupUseCase,
+            final ScheduleUpdateUseCase scheduleUpdateUseCase,
+            final ScheduleUpdateGroupUseCase scheduleUpdateGroupUseCase
     ) {
+
         this.scheduleCreateUseCase = scheduleCreateUseCase;
         this.repeatScheduleCreateUseCase = repeatScheduleCreateUseCase;
         this.scheduleDeleteUseCase = scheduleDeleteUseCase;
-        this.scheduleDeleteAllUseCase = scheduleDeleteAllUseCase;
+        this.scheduleDeleteGroupUseCase = scheduleDeleteGroupUseCase;
+        this.scheduleUpdateUseCase = scheduleUpdateUseCase;
+        this.scheduleUpdateGroupUseCase = scheduleUpdateGroupUseCase;
     }
 
     @PostMapping
@@ -94,16 +95,61 @@ public class ScheduleApiController {
         );
     }
 
-    @DeleteMapping("/{scheduleId}/all")
-    ResponseEntity<SuccessResponse<?>> deleteScheduleAll(
+    @DeleteMapping("/{scheduleId}/group")
+    ResponseEntity<SuccessResponse<?>> deleteScheduleGroup(
             //@Authorization final AuthorizationUser authorizationUser,
             @PathVariable final long scheduleId,
             @RequestParam final String scheduleGroupId
     ) {
-        scheduleDeleteAllUseCase.deleteAll(ScheduleDeleteAllCommand.of(1, scheduleId, scheduleGroupId));
+        scheduleDeleteGroupUseCase.deleteGroup(ScheduleDeleteGroupCommand.of(1, scheduleId, scheduleGroupId));
         return SuccessResponse.of(
                 HttpStatus.OK,
-                "단일 스케줄 삭제 성공"
+                "반복 스케줄 삭제 성공"
+        );
+    }
+
+    @PatchMapping("/{scheduleId}")
+    ResponseEntity<SuccessResponse<?>> updateSchedule(
+            //@Authorization final AuthorizationUser authorizationUser,
+            @PathVariable final long scheduleId,
+            @RequestBody final ScheduleUpdateRequest scheduleUpdateRequest
+    ) {
+        scheduleUpdateUseCase.update(ScheduleUpdateCommand.of(
+                1,
+                scheduleId,
+                scheduleUpdateRequest.description(),
+                scheduleUpdateRequest.startDate(),
+                scheduleUpdateRequest.endDate(),
+                scheduleUpdateRequest.isAllDay(),
+                scheduleUpdateRequest.tagId()
+        ));
+        return SuccessResponse.of(
+                HttpStatus.OK,
+                "단일 스케줄 업데이트 성공"
+        );
+    }
+
+    @PatchMapping("/{scheduleId}/group")
+    ResponseEntity<SuccessResponse<?>> updateScheduleGroup(
+            //@Authorization final AuthorizationUser authorizationUser,
+            @PathVariable final long scheduleId,
+            @RequestBody final ScheduleUpdateGroupRequest scheduleUpdateGroupRequest
+    ) {
+        scheduleUpdateGroupUseCase.updateGroup(ScheduleUpdateGroupCommand.of(
+                1,
+                scheduleId,
+                scheduleUpdateGroupRequest.description(),
+                scheduleUpdateGroupRequest.startDate(),
+                scheduleUpdateGroupRequest.endDate(),
+                scheduleUpdateGroupRequest.repeatOption(),
+                scheduleUpdateGroupRequest.repeatExpiredDate(),
+                scheduleUpdateGroupRequest.isAllDay(),
+                scheduleUpdateGroupRequest.tagId(),
+                scheduleUpdateGroupRequest.scheduleGroupId()
+        ));
+        return SuccessResponse.of(
+                HttpStatus.OK,
+                "반복 스케줄 업데이트 성공"
         );
     }
 }
