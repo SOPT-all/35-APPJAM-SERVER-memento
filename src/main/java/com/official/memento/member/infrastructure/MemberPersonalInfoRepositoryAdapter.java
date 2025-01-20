@@ -9,6 +9,8 @@ import com.official.memento.member.infrastructure.persistence.MemberPersonalInfo
 import com.official.memento.member.infrastructure.persistence.MemberPersonalInfoEntityJpaRepository;
 import com.official.memento.member.infrastructure.persistence.MemberPersonalInfoMapper;
 
+import java.util.Optional;
+
 @Adapter
 public class MemberPersonalInfoRepositoryAdapter implements MemberPersonalInfoRepository {
     private final MemberPersonalInfoEntityJpaRepository memberPersonalInfoEntityJpaRepository;
@@ -18,10 +20,11 @@ public class MemberPersonalInfoRepositoryAdapter implements MemberPersonalInfoRe
     }
 
     @Override
-    public MemberPersonalInfo findByMemberId(final Long memberId) {
-        MemberPersonalInfoEntity entity = memberPersonalInfoEntityJpaRepository.findByMemberId(memberId)
+    public Optional<MemberPersonalInfo> findByMemberId(final Long memberId) {
+        MemberPersonalInfoEntity entity = memberPersonalInfoEntityJpaRepository
+                .findByMemberId(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NOT_FOUND_ENTITY));
-        return MemberPersonalInfoMapper.toDomain(entity);
+        return Optional.of(MemberPersonalInfoMapper.toDomain(entity));
     }
 
     @Override
