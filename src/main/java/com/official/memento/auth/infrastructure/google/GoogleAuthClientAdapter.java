@@ -1,4 +1,4 @@
-package com.official.memento.auth.infrastructure;
+package com.official.memento.auth.infrastructure.google;
 
 import com.official.memento.auth.domain.port.AuthClientOutputPort;
 import com.official.memento.global.dto.SuccessResponse;

@@ -13,7 +13,9 @@ public class MemberPersonalInfoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long memberId;
+    @OneToOne(fetch = FetchType.LAZY) // member 테이블과 1:1 관계 설정
+    @JoinColumn(name = "member_id", nullable = false) // 외래 키 지정
+    private MemberEntity member;
 
     private LocalTime wakeUpTime;
 
@@ -36,7 +38,7 @@ public class MemberPersonalInfoEntity {
     }
 
     private MemberPersonalInfoEntity(
-            final Long memberId,
+            final MemberEntity member,
             final LocalTime wakeUpTime,
             final LocalTime windDownTime,
             final JobType job,
@@ -46,7 +48,7 @@ public class MemberPersonalInfoEntity {
             final Boolean isPreferReminder,
             final Boolean isImportantBreaks)
     {
-        this.memberId = memberId;
+        this.member = member;
         this.wakeUpTime = wakeUpTime;
         this.windDownTime = windDownTime;
         this.job = job;
@@ -58,7 +60,7 @@ public class MemberPersonalInfoEntity {
     }
 
     public static MemberPersonalInfoEntity of(
-            final Long memberId,
+            final MemberEntity member,
             final LocalTime wakeUpTime,
             final LocalTime windDownTime,
             final JobType job,
@@ -69,7 +71,7 @@ public class MemberPersonalInfoEntity {
             final Boolean isImportantBreaks)
     {
         return new MemberPersonalInfoEntity(
-                memberId, wakeUpTime, windDownTime, job, jobOtherDetail,
+                member, wakeUpTime, windDownTime, job, jobOtherDetail,
                 isStressedUnorganizedSchedule, isForgetImportantThings,
                 isPreferReminder, isImportantBreaks
         );
@@ -83,8 +85,8 @@ public class MemberPersonalInfoEntity {
         return id;
     }
 
-    public Long getMemberId() {
-        return memberId;
+    public MemberEntity getMember() {
+        return member;
     }
 
     public LocalTime getWakeUpTime() {
