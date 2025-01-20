@@ -13,13 +13,13 @@ public class ScheduleTag extends BaseTimeEntity {
             final Long id,
             final long tagId,
             final long scheduleId,
-            final LocalDateTime createAt,
+            final LocalDateTime createdAt,
             final LocalDateTime updatedAt
     ) {
         this.id = id;
         this.tagId = tagId;
         this.scheduleId = scheduleId;
-        this.createdAt = createAt;
+        this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
@@ -33,9 +33,9 @@ public class ScheduleTag extends BaseTimeEntity {
             final long tagId,
             final long scheduleId,
             final LocalDateTime createdAt,
-            final LocalDateTime updateAt
+            final LocalDateTime updatedAt
     ) {
-        return new ScheduleTag(id, tagId, scheduleId, createdAt, updateAt);
+        return new ScheduleTag(id, tagId, scheduleId, createdAt, updatedAt);
     }
 
     public static ScheduleTag of(
