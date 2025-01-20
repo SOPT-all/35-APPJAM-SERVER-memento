@@ -1,10 +1,11 @@
 package com.official.memento.schedule.service;
 
 import com.official.memento.global.entity.enums.RepeatOption;
-import com.official.memento.schedule.domain.Schedule;
-import com.official.memento.schedule.domain.ScheduleRepository;
-import com.official.memento.schedule.domain.ScheduleTag;
-import com.official.memento.schedule.domain.ScheduleTagRepository;
+import com.official.memento.orderinfo.domain.EventType;
+import com.official.memento.orderinfo.domain.OrderInfo;
+import com.official.memento.orderinfo.domain.OrderInfoRepository;
+import com.official.memento.orderinfo.domain.OrderWithScheduleOrToDo;
+import com.official.memento.schedule.domain.*;
 import com.official.memento.schedule.service.command.RepeatScheduleCreateCommand;
 import com.official.memento.schedule.service.command.ScheduleCreateCommand;
 import com.official.memento.schedule.service.command.ScheduleDeleteAllCommand;
@@ -27,26 +28,33 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
     private final ScheduleTagRepository scheduleTagRepository;
     private final ScheduleRepository scheduleRepository;
     private final TagRepository tagRepository;
+    private final OrderInfoRepository orderInfoRepository;
 
     public ScheduleService(
             final ScheduleRepository scheduleRepository,
             final ScheduleTagRepository scheduleTagRepository,
-            final TagRepository tagRepository
+            final TagRepository tagRepository,
+            final OrderInfoRepository orderInfoRepository
     ) {
         this.scheduleRepository = scheduleRepository;
         this.scheduleTagRepository = scheduleTagRepository;
         this.tagRepository = tagRepository;
+        this.orderInfoRepository = orderInfoRepository;
     }
 
     @Override
     @Transactional
     public void create(final ScheduleCreateCommand command) {
         String scheduleGroupId = UUID.randomUUID().toString();
+        List<OrderWithScheduleOrToDo> scheduleList = orderInfoRepository.findOrderInfoWithDetails(
+                command.startDate().toLocalDate()
+        );
         Schedule schedule = createSchedule(command, scheduleGroupId);
         if (command.tagId() != null) {
             connectTag(command.tagId(), schedule);
         }
-        //순서관련 로직 추가
+        int insertOrder = getInsertOrder(command.startDate().toLocalDate(), scheduleList, schedule);
+        createOrderInfo(command.startDate().toLocalDate(), schedule, insertOrder);
     }
 
     @Override
@@ -76,7 +84,6 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
         //태그 삭제
         //순서 관련 삭제
     }
-
 
     @Override
     @Transactional
@@ -151,5 +158,55 @@ public class ScheduleService implements ScheduleCreateUseCase, RepeatScheduleCre
         if (!schedule.getScheduleGroupId().equals(scheduleGroupId)) {
             throw new IllegalArgumentException("해당 스케줄의 그룹 아이디와 일치하지 않습니다."); //커스텀
         }
+    }
+
+    private int getInsertOrder(final LocalDate date, final List<OrderWithScheduleOrToDo> scheduleList, final Schedule schedule) {
+        int insertOrder = 1;
+        boolean isInserted = false;
+        for (OrderWithScheduleOrToDo existingOrder : scheduleList) {
+
+            //순서정보중 스케줄의 시간을 고려하여 삽입해야할 위치 선정
+            if (!isInserted && existingOrder.getType() == EventType.Schedule) {
+                if (schedule.getStartDate().equals(existingOrder.getStartDate()) && schedule.getEndDate().isBefore(existingOrder.getEndDate())) {
+                    insertOrder = existingOrder.getOrder();
+                    isInserted = true;
+                } else if (schedule.getStartDate().isBefore(existingOrder.getStartDate())) {
+                    insertOrder = existingOrder.getOrder();
+                    isInserted = true;
+                }
+            }
+
+            //삽입 된 곳 이후의 순서정보들을 1씩 증가
+            if (isInserted) {
+                existingOrder.shiftBack();
+                orderInfoRepository.update(
+                        OrderInfo.withId(
+                                existingOrder.getOrderInfoId(),
+                                existingOrder.getScheduleId(),
+                                existingOrder.getToDoId(),
+                                existingOrder.getOrder(),
+                                date,
+                                existingOrder.getType(),
+                                existingOrder.getCreatedAt()
+                        ));
+            }
+        }
+
+        //위 로직에 걸리지 않았을 경우 -> 빈리스트거나 가장 마지막에 추가되는 순서정보
+        if (!isInserted) {
+            insertOrder = scheduleList.isEmpty() ? 1 : scheduleList.get(scheduleList.size() - 1).getOrder() + 1;
+        }
+        return insertOrder;
+    }
+
+    private void createOrderInfo(final LocalDate date, final Schedule schedule, final int insertOrder) {
+        orderInfoRepository.save(OrderInfo.of(
+                schedule.getId(),
+                null,
+                insertOrder,
+                date,
+                EventType.Schedule,
+                LocalDateTime.now()
+        ));
     }
 }
