@@ -32,6 +32,34 @@ public class ScheduleEntity extends BaseTimeEntity {
     }
 
     private ScheduleEntity(
+            final long id,
+            final long memberId,
+            final String description,
+            final LocalDateTime startDate,
+            final LocalDateTime endDate,
+            final boolean isAllDay,
+            final RepeatOption repeatOption,
+            final LocalDate repeatExpiredDate,
+            final ScheduleType type,
+            final String scheduleGroupId,
+            final LocalDateTime createdAt,
+            final LocalDateTime updatedAt
+    ) {
+        this.id = id;
+        this.memberId = memberId;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isAllDay = isAllDay;
+        this.repeatOption = repeatOption;
+        this.repeatExpiredDate = repeatExpiredDate;
+        this.type = type;
+        this.scheduleGroupId = scheduleGroupId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    private ScheduleEntity(
             final long memberId,
             final String description,
             final LocalDateTime startDate,
@@ -64,6 +92,23 @@ public class ScheduleEntity extends BaseTimeEntity {
                 schedule.getRepeatExpiredDate(),
                 schedule.getType(),
                 schedule.getScheduleGroupId()
+        );
+    }
+
+    public static ScheduleEntity withId(final Schedule schedule) {
+        return new ScheduleEntity(
+                schedule.getId(),
+                schedule.getMemberId(),
+                schedule.getDescription(),
+                schedule.getStartDate(),
+                schedule.getEndDate(),
+                schedule.isAllDay(),
+                schedule.getRepeatOption(),
+                schedule.getRepeatExpiredDate(),
+                schedule.getType(),
+                schedule.getScheduleGroupId(),
+                schedule.getCreatedAt(),
+                schedule.getUpdatedAt()
         );
     }
 

@@ -8,6 +8,9 @@ import com.official.memento.schedule.domain.ScheduleRepository;
 import com.official.memento.schedule.infrastructure.persistence.ScheduleEntity;
 import com.official.memento.schedule.infrastructure.persistence.ScheduleEntityJpaRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Adapter
 public class ScheduleRepositoryAdapter implements ScheduleRepository {
 
@@ -30,7 +33,28 @@ public class ScheduleRepositoryAdapter implements ScheduleRepository {
                 scheduleEntity.getRepeatOption(),
                 scheduleEntity.getRepeatExpiredDate(),
                 scheduleEntity.getType(),
-                scheduleEntity.getScheduleGroupId()
+                scheduleEntity.getScheduleGroupId(),
+                scheduleEntity.getCreatedAt(),
+                scheduleEntity.getUpdatedAt()
+        );
+    }
+
+    @Override
+    public Schedule update(final Schedule schedule) {
+        ScheduleEntity scheduleEntity = scheduleEntityJpaRepository.save(ScheduleEntity.withId(schedule));
+        return Schedule.withId(
+                scheduleEntity.getId(),
+                scheduleEntity.getMemberId(),
+                scheduleEntity.getDescription(),
+                scheduleEntity.getStartDate(),
+                scheduleEntity.getEndDate(),
+                scheduleEntity.isAllDay(),
+                scheduleEntity.getRepeatOption(),
+                scheduleEntity.getRepeatExpiredDate(),
+                scheduleEntity.getType(),
+                scheduleEntity.getScheduleGroupId(),
+                scheduleEntity.getCreatedAt(),
+                scheduleEntity.getUpdatedAt()
         );
     }
 
@@ -50,8 +74,48 @@ public class ScheduleRepositoryAdapter implements ScheduleRepository {
                 scheduleEntity.getRepeatOption(),
                 scheduleEntity.getRepeatExpiredDate(),
                 scheduleEntity.getType(),
-                scheduleEntity.getScheduleGroupId()
+                scheduleEntity.getScheduleGroupId(),
+                scheduleEntity.getCreatedAt(),
+                scheduleEntity.getUpdatedAt()
         );
+    }
+
+    @Override
+    public List<Schedule> findAllByScheduleGroupId(final String scheduleGroupId) {
+        List<ScheduleEntity> scheduleEntities = scheduleEntityJpaRepository.findAllByScheduleGroupId(scheduleGroupId);
+        return scheduleEntities.stream().map(scheduleEntity -> Schedule.withId(
+                scheduleEntity.getId(),
+                scheduleEntity.getMemberId(),
+                scheduleEntity.getDescription(),
+                scheduleEntity.getStartDate(),
+                scheduleEntity.getEndDate(),
+                scheduleEntity.isAllDay(),
+                scheduleEntity.getRepeatOption(),
+                scheduleEntity.getRepeatExpiredDate(),
+                scheduleEntity.getType(),
+                scheduleEntity.getScheduleGroupId(),
+                scheduleEntity.getCreatedAt(),
+                scheduleEntity.getUpdatedAt()
+        )).toList();
+    }
+
+    @Override
+    public List<Schedule> findAllByScheduleGroupIdAndStartDateGreaterThanEqual(String scheduleGroupId, LocalDateTime startDate) {
+        List<ScheduleEntity> scheduleEntities = scheduleEntityJpaRepository.findAllByScheduleGroupIdAndStartDateGreaterThanEqual(scheduleGroupId, startDate);
+        return scheduleEntities.stream().map(scheduleEntity -> Schedule.withId(
+                scheduleEntity.getId(),
+                scheduleEntity.getMemberId(),
+                scheduleEntity.getDescription(),
+                scheduleEntity.getStartDate(),
+                scheduleEntity.getEndDate(),
+                scheduleEntity.isAllDay(),
+                scheduleEntity.getRepeatOption(),
+                scheduleEntity.getRepeatExpiredDate(),
+                scheduleEntity.getType(),
+                scheduleEntity.getScheduleGroupId(),
+                scheduleEntity.getCreatedAt(),
+                scheduleEntity.getUpdatedAt()
+        )).toList();
     }
 
     @Override
@@ -60,7 +124,8 @@ public class ScheduleRepositoryAdapter implements ScheduleRepository {
     }
 
     @Override
-    public void deleteAllByGroupId(final String groupId) {
-        scheduleEntityJpaRepository.deleteAllByScheduleGroupId(groupId);
+    public void deleteAll(final List<Schedule> schedules) {
+        List<ScheduleEntity> scheduleEntities = schedules.stream().map(ScheduleEntity::withId).toList();
+        scheduleEntityJpaRepository.deleteAll(scheduleEntities);
     }
 }
