@@ -309,13 +309,11 @@ public class ToDoService implements ToDoCreateUseCase, ToDoDeleteUseCase, ToDoUp
                 if (toDo.getPriorityValue() > existingOrder.getPriorityValue()) {
                     insertOrder = existingOrder.getOrder();
                     isInserted = true;
-                    System.out.println(1);
                 } else if (toDo.getPriorityValue().equals(existingOrder.getPriorityValue())) {
                     if (toDo.getCreatedAt().isBefore(existingOrder.getCreatedAt())) {
                         insertOrder = existingOrder.getOrder();
                         isInserted = true;
                     }
-                    System.out.println(2);
                 }
             }
 
@@ -331,13 +329,11 @@ public class ToDoService implements ToDoCreateUseCase, ToDoDeleteUseCase, ToDoUp
                                 existingOrder.getType(),
                                 existingOrder.getCreatedAt()
                         ));
-                System.out.println(3);
             }
         }
 
         if (!isInserted) {
             insertOrder = toDoList.isEmpty() ? 1 : toDoList.get(toDoList.size() - 1).getOrder() + 1;
-            System.out.println(4);
         }
         return insertOrder;
     }
